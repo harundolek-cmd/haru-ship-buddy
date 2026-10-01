@@ -14,16 +14,333 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      dispatchers: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          phone: string | null
+          team_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name: string
+          id?: string
+          phone?: string | null
+          team_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          phone?: string | null
+          team_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dispatchers_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      documents: {
+        Row: {
+          created_at: string
+          doc_type: Database["public"]["Enums"]["doc_type"]
+          file_name: string
+          file_path: string
+          id: string
+          load_id: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          doc_type: Database["public"]["Enums"]["doc_type"]
+          file_name: string
+          file_path: string
+          id?: string
+          load_id: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          doc_type?: Database["public"]["Enums"]["doc_type"]
+          file_name?: string
+          file_path?: string
+          id?: string
+          load_id?: string
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "loads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      drivers: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          license_no: string | null
+          phone: string | null
+          status: Database["public"]["Enums"]["driver_status"]
+          team_id: string | null
+          truck_plate: string | null
+        }
+        Insert: {
+          created_at?: string
+          full_name: string
+          id?: string
+          license_no?: string | null
+          phone?: string | null
+          status?: Database["public"]["Enums"]["driver_status"]
+          team_id?: string | null
+          truck_plate?: string | null
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          license_no?: string | null
+          phone?: string | null
+          status?: Database["public"]["Enums"]["driver_status"]
+          team_id?: string | null
+          truck_plate?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drivers_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loads: {
+        Row: {
+          created_at: string
+          destination: string
+          dispatcher_id: string | null
+          distance_km: number | null
+          driver_id: string | null
+          id: string
+          load_no: number
+          notes: string | null
+          origin: string
+          pickup_date: string | null
+          rate: number | null
+          route_id: string | null
+          status: Database["public"]["Enums"]["load_status"]
+        }
+        Insert: {
+          created_at?: string
+          destination: string
+          dispatcher_id?: string | null
+          distance_km?: number | null
+          driver_id?: string | null
+          id?: string
+          load_no?: number
+          notes?: string | null
+          origin: string
+          pickup_date?: string | null
+          rate?: number | null
+          route_id?: string | null
+          status?: Database["public"]["Enums"]["load_status"]
+        }
+        Update: {
+          created_at?: string
+          destination?: string
+          dispatcher_id?: string | null
+          distance_km?: number | null
+          driver_id?: string | null
+          id?: string
+          load_no?: number
+          notes?: string | null
+          origin?: string
+          pickup_date?: string | null
+          rate?: number | null
+          route_id?: string | null
+          status?: Database["public"]["Enums"]["load_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loads_dispatcher_id_fkey"
+            columns: ["dispatcher_id"]
+            isOneToOne: false
+            referencedRelation: "dispatchers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loads_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loads_route_id_fkey"
+            columns: ["route_id"]
+            isOneToOne: false
+            referencedRelation: "routes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          author_name: string
+          content: string
+          created_at: string
+          id: string
+          room: string
+          user_id: string
+        }
+        Insert: {
+          author_name: string
+          content: string
+          created_at?: string
+          id?: string
+          room?: string
+          user_id: string
+        }
+        Update: {
+          author_name?: string
+          content?: string
+          created_at?: string
+          id?: string
+          room?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          company_name: string | null
+          created_at: string
+          full_name: string
+          id: string
+          phone: string | null
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string
+          full_name?: string
+          id: string
+          phone?: string | null
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      routes: {
+        Row: {
+          created_at: string
+          destination: string
+          distance_km: number | null
+          id: string
+          name: string
+          notes: string | null
+          origin: string
+        }
+        Insert: {
+          created_at?: string
+          destination: string
+          distance_km?: number | null
+          id?: string
+          name: string
+          notes?: string | null
+          origin: string
+        }
+        Update: {
+          created_at?: string
+          destination?: string
+          distance_km?: number | null
+          id?: string
+          name?: string
+          notes?: string | null
+          origin?: string
+        }
+        Relationships: []
+      }
+      teams: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          region: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          region?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          region?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "dispatcher"
+      doc_type: "BOL" | "POD"
+      driver_status: "musait" | "gorevde" | "izinli"
+      load_status:
+        | "rezerve"
+        | "sevk_edildi"
+        | "yolda"
+        | "teslim_edildi"
+        | "iptal"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +467,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "dispatcher"],
+      doc_type: ["BOL", "POD"],
+      driver_status: ["musait", "gorevde", "izinli"],
+      load_status: [
+        "rezerve",
+        "sevk_edildi",
+        "yolda",
+        "teslim_edildi",
+        "iptal",
+      ],
+    },
   },
 } as const
