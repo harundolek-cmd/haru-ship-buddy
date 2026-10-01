@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentUser } from "@/lib/tms";
 import { Avatar } from "@/components/tms/ui";
-import { Brand } from "../index";
+import { Brand } from "@/components/tms/Brand";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,

@@ -6,7 +6,7 @@ import { lovable } from "@/integrations/lovable";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/tms/ui";
-import { Brand } from "./index";
+import { Brand } from "@/components/tms/Brand";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({

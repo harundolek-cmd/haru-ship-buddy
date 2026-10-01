@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { Brand } from "@/components/tms/Brand";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -57,20 +58,6 @@ function Index() {
           ))}
         </div>
       </main>
-    </div>
-  );
-}
-
-export function Brand() {
-  return (
-    <div className="flex items-center gap-2.5">
-      <div className="grid size-7 place-items-center rounded-md bg-primary">
-        <span className="font-mono text-xs font-semibold text-primary-foreground">H</span>
-      </div>
-      <div>
-        <div className="font-mono text-sm font-semibold leading-none tracking-tight">HARU TMS</div>
-        <div className="text-[10px] tracking-wide text-muted-foreground">Lojistik Operasyon</div>
-      </div>
     </div>
   );
 }
