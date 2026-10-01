@@ -36,7 +36,7 @@ export function NewLoadButton() {
       status: f.status,
       notes: f.notes || null,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     if (f.driver_id) await supabase.from("drivers").update({ status: "gorevde" }).eq("id", f.driver_id);
     toast.success("Görev oluşturuldu");
     invalidate("loads");

@@ -30,7 +30,7 @@ export function AddDialog({ table, title, fields }: { table: TableName; title: s
       row[f.name] = v === "" ? null : f.type === "number" ? Number(v) : v;
     }
     const { error } = await supabase.from(table).insert(row as never);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(`${title} eklendi`);
     invalidate(table);
     setValues({});
@@ -70,7 +70,7 @@ export function DeleteBtn({ table, id }: { table: TableName; id: string }) {
       onClick={async () => {
         if (!confirm("Silmek istediğinize emin misiniz?")) return;
         const { error } = await supabase.from(table).delete().eq("id", id);
-        if (error) return toast.error("Sadece yönetici silebilir");
+        if (error) { toast.error("Sadece yönetici silebilir"); return; }
         invalidate(table);
       }}
       className="font-mono text-xs text-muted-foreground hover:text-destructive"

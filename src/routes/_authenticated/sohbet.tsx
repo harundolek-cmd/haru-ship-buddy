@@ -5,7 +5,7 @@ import { useList } from "@/lib/tms";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/sohbet")({
-  validateSearch: (s: Record<string, unknown>) => ({ oda: typeof s.oda === "string" ? s.oda : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ oda: typeof s["oda"] === "string" ? (s["oda"] as string) : undefined }),
   head: () => ({
     meta: [
       { title: "Sohbet Odası — HARU TMS" },

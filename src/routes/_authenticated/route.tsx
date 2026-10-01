@@ -69,7 +69,7 @@ function AppShell() {
         </nav>
         <div className="px-3 pb-4">
           <div className="flex items-center gap-2.5 rounded-lg bg-background p-3 ring-1 ring-foreground/5">
-            <Avatar name={profile?.full_name} className="size-8" />
+            <Avatar name={profile?.full_name ?? null} className="size-8" />
             <div className="min-w-0 flex-1">
               <div className="truncate text-xs font-medium">{profile?.full_name ?? "…"}</div>
               <div className="text-[10px] text-muted-foreground">{isAdmin ? "Yönetici" : "Dispatcher"}</div>

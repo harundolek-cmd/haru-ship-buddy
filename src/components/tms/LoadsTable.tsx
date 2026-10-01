@@ -41,8 +41,8 @@ function UploadBtn({ loadId, type, done }: { loadId: string; type: "BOL" | "POD"
     setBusy(true);
     const path = `${loadId}/${type}-${Date.now()}-${file.name.replace(/[^\w.-]/g, "_")}`;
     const { error } = await supabase.storage.from("documents").upload(path, file);
-    if (error) { setBusy(false); return toast.error(error.message); }
-    await supabase.from("documents").insert({ load_id: loadId, doc_type: type, file_path: path, file_name: file.name, uploaded_by: user?.id });
+    if (error) { setBusy(false); toast.error(error.message); return; }
+    await supabase.from("documents").insert({ load_id: loadId, doc_type: type, file_path: path, file_name: file.name, uploaded_by: user?.id ?? null });
     setBusy(false);
     toast.success(`${type} yüklendi`);
     invalidate("documents");
@@ -73,7 +73,7 @@ export function LoadsTable({ filter = "all", editable = false, limit }: { filter
 
   async function setStatus(id: string, status: LoadStatus) {
     const { error } = await supabase.from("loads").update({ status }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     invalidate("loads");
   }
 

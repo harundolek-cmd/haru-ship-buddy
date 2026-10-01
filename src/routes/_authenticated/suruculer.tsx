@@ -25,7 +25,7 @@ function Suruculer() {
 
   async function setStatus(id: string, status: DriverStatus) {
     const { error } = await supabase.from("drivers").update({ status }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     invalidate("drivers");
   }
 

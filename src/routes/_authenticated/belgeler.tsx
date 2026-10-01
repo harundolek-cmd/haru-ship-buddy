@@ -23,7 +23,7 @@ function Belgeler() {
 
   async function open(path: string) {
     const { data, error } = await supabase.storage.from("documents").createSignedUrl(path, 300);
-    if (error || !data) return toast.error("Belge açılamadı");
+    if (error || !data) { toast.error("Belge açılamadı"); return; }
     window.open(data.signedUrl, "_blank");
   }
 
