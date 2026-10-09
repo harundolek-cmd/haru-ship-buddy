@@ -1,4 +1,27 @@
-import { LayoutDashboard, Package, MapPinned, ShieldCheck, Files, Users, Truck, Route as RouteIcon, Wallet, UsersRound, MessagesSquare, Settings, LogOut } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  MapPinned,
+  ShieldCheck,
+  Files,
+  Users,
+  Truck,
+  Route as RouteIcon,
+  Wallet,
+  UsersRound,
+  MessagesSquare,
+  Settings,
+  LogOut,
+  ClipboardList,
+  Building2,
+  FileText,
+  Receipt,
+  Wrench,
+  BarChart3,
+  CalendarClock,
+  Shield,
+  Plug,
+} from "lucide-react";
 import { createFileRoute, Outlet, redirect, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -22,7 +45,10 @@ const groups = [
     items: [
       { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
       { to: "/loads", label: "Loads", icon: Package },
-      { to: "/map", label: "Live Map", icon: MapPinned },
+      { to: "/planner", label: "Dispatch Board", icon: LayoutDashboard },
+      { to: "/stops", label: "Stops & Appointments", icon: CalendarClock },
+      { to: "/tasks", label: "Tasks & Follow-ups", icon: ClipboardList },
+      { to: "/map", label: "Fleet Locations", icon: MapPinned },
       { to: "/permits", label: "Permits", icon: ShieldCheck },
       { to: "/documents", label: "Documents", icon: Files },
     ],
@@ -33,11 +59,26 @@ const groups = [
       { to: "/drivers", label: "Drivers", icon: Users },
       { to: "/trucks", label: "Trucks & Trailers", icon: Truck },
       { to: "/lanes", label: "Lanes", icon: RouteIcon },
+      { to: "/maintenance", label: "Maintenance", icon: Wrench },
+      { to: "/compliance", label: "Renewals", icon: Shield },
     ],
   },
   {
     label: "Accounting",
-    items: [{ to: "/driver-pay", label: "Driver Pay", icon: Wallet }],
+    items: [
+      { to: "/driver-pay", label: "Driver Pay", icon: Wallet },
+      { to: "/invoices", label: "Invoices & Payments", icon: Receipt },
+      { to: "/expenses", label: "Expenses", icon: Wallet },
+      { to: "/reports", label: "Reports", icon: BarChart3 },
+    ],
+  },
+  {
+    label: "Commercial",
+    items: [
+      { to: "/partners", label: "Customers & Partners", icon: Building2 },
+      { to: "/quotes", label: "Quotes", icon: FileText },
+      { to: "/integrations", label: "Integrations", icon: Plug },
+    ],
   },
   {
     label: "Team",
@@ -63,31 +104,54 @@ function AppShell() {
   return (
     <div className="workspace flex min-h-screen">
       <aside className="workspace-sidebar no-print sticky top-0 flex h-dvh w-16 shrink-0 flex-col text-sidebar-foreground sm:w-60">
-        <div className="flex h-20 items-center justify-center border-b border-sidebar-border sm:justify-start sm:px-5"><span className="hidden sm:block"><Brand dark /></span><span className="brand-mark grid size-9 place-items-center rounded-xl text-sm font-bold text-white sm:hidden" aria-label="HARU TMS">H</span></div>
+        <div className="flex h-20 items-center justify-center border-b border-sidebar-border sm:justify-start sm:px-5">
+          <span className="hidden sm:block">
+            <Brand dark />
+          </span>
+          <span
+            className="brand-mark grid size-9 place-items-center rounded-xl text-sm font-bold text-white sm:hidden"
+            aria-label="HARU TMS"
+          >
+            H
+          </span>
+        </div>
         <nav className="flex-1 space-y-5 overflow-y-auto px-2 py-5 text-[13px] sm:px-3">
-          {groups.map((g) => (
-            <div key={g.label}>
-              <div className="hidden px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-sidebar-foreground/80 sm:block">{g.label}</div>
-              {g.items.map((n) => (
-                <Link
-                  key={n.to}
-                  to={n.to}
-                  aria-label={n.label}
-                  title={n.label}
-                  className="nav-item justify-center sm:justify-start"
-                  activeProps={{ className: "font-semibold" }}
-                >
-                  <n.icon className="size-[18px] shrink-0" aria-hidden="true" />
-                  <span className="hidden sm:inline">{n.label}</span>
-                </Link>
-              ))}
-            </div>
-          ))}
+          {groups
+            .filter((g) => g.label !== "Accounting" || isAdmin)
+            .map((g) => (
+              <div key={g.label}>
+                <div className="hidden px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-sidebar-foreground/80 sm:block">
+                  {g.label}
+                </div>
+                {g.items.map((n) => (
+                  <Link
+                    key={n.to}
+                    to={n.to}
+                    aria-label={n.label}
+                    title={n.label}
+                    className="nav-item justify-center sm:justify-start"
+                    activeProps={{ className: "font-semibold" }}
+                  >
+                    <n.icon className="size-[18px] shrink-0" aria-hidden="true" />
+                    <span className="hidden sm:inline">{n.label}</span>
+                  </Link>
+                ))}
+              </div>
+            ))}
           {isAdmin && (
             <div>
-              <div className="hidden px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-sidebar-foreground/80 sm:block">Admin</div>
-              <Link aria-label="Company & Users" title="Company & Users" to="/settings" className="nav-item justify-center sm:justify-start" activeProps={{ className: "font-semibold" }}>
-                <Settings className="size-[18px] shrink-0" aria-hidden="true" /><span className="hidden sm:inline">Company & Users</span>
+              <div className="hidden px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-sidebar-foreground/80 sm:block">
+                Admin
+              </div>
+              <Link
+                aria-label="Company & Users"
+                title="Company & Users"
+                to="/settings"
+                className="nav-item justify-center sm:justify-start"
+                activeProps={{ className: "font-semibold" }}
+              >
+                <Settings className="size-[18px] shrink-0" aria-hidden="true" />
+                <span className="hidden sm:inline">Company & Users</span>
               </Link>
             </div>
           )}
@@ -98,7 +162,9 @@ function AppShell() {
           <div className="min-w-0">
             <div className="truncate text-sm font-semibold">{company?.name ?? "…"}</div>
             <div className="font-mono text-[11px] text-muted-foreground">
-              {[company?.mc_number, company?.dot_number && `DOT ${company.dot_number}`].filter(Boolean).join(" · ") || "Add MC / DOT in Company settings"}
+              {[company?.mc_number, company?.dot_number && `DOT ${company.dot_number}`]
+                .filter(Boolean)
+                .join(" · ") || "Add MC / DOT in Company settings"}
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
@@ -110,7 +176,15 @@ function AppShell() {
               <div className="text-xs font-medium">{profile?.full_name ?? "…"}</div>
               <div className="text-[11px] text-muted-foreground">{user?.email}</div>
             </div>
-            <button onClick={signOut} aria-label="Sign out" title="Sign out" className="flex items-center gap-2 rounded-lg border p-2 text-xs hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"><LogOut className="size-4" aria-hidden="true" /><span className="hidden lg:inline">Sign out</span></button>
+            <button
+              onClick={signOut}
+              aria-label="Sign out"
+              title="Sign out"
+              className="flex items-center gap-2 rounded-lg border p-2 text-xs hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"
+            >
+              <LogOut className="size-4" aria-hidden="true" />
+              <span className="hidden lg:inline">Sign out</span>
+            </button>
           </div>
         </header>
         <main className="min-w-0 flex-1 space-y-6 p-3 sm:p-6 lg:p-8">

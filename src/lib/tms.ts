@@ -10,7 +10,14 @@ export type LoadStatus = Database["public"]["Enums"]["load_status"];
 export type DriverStatus = Database["public"]["Enums"]["driver_status"];
 
 // DB enum values are legacy identifiers; labels are the US-facing names.
-export const loadStatusOrder: LoadStatus[] = ["rezerve", "sevk_edildi", "yolda", "teslim_edildi", "invoiced", "iptal"];
+export const loadStatusOrder: LoadStatus[] = [
+  "rezerve",
+  "sevk_edildi",
+  "yolda",
+  "teslim_edildi",
+  "invoiced",
+  "iptal",
+];
 export const loadStatusLabel: Record<LoadStatus, string> = {
   rezerve: "Booked",
   sevk_edildi: "Dispatched",
@@ -58,7 +65,11 @@ export function useList<T extends keyof Database["public"]["Tables"]>(
 
 export function useInvalidate() {
   const qc = useQueryClient();
-  return (key: string) => qc.invalidateQueries({ queryKey: [key] });
+  return (key: string) =>
+    Promise.all([
+      qc.invalidateQueries({ queryKey: [key] }),
+      qc.invalidateQueries({ queryKey: ["business", key] }),
+    ]);
 }
 
 export function useCurrentUser() {
@@ -73,7 +84,11 @@ export function useCurrentUser() {
       const [{ data: p }, { data: r }, { data: m }] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", user!.id).maybeSingle(),
         supabase.from("user_roles").select("role").eq("user_id", user!.id),
-        supabase.from("company_members").select("company_id, companies(*)").eq("user_id", user!.id).maybeSingle(),
+        supabase
+          .from("company_members")
+          .select("company_id, companies(*)")
+          .eq("user_id", user!.id)
+          .maybeSingle(),
       ]);
       return {
         profile: p,
@@ -94,7 +109,12 @@ export function useCurrentUser() {
 
 export function initials(name?: string | null) {
   if (!name) return "?";
-  return name.split(" ").filter(Boolean).slice(0, 2).map((s) => s[0]!.toUpperCase()).join("");
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((s) => s[0]!.toUpperCase())
+    .join("");
 }
 
 export function shortName(name?: string | null) {
@@ -104,7 +124,13 @@ export function shortName(name?: string | null) {
 }
 
 export const fmtDate = (d?: string | null) =>
-  d ? new Date(d + (d.length === 10 ? "T12:00:00" : "")).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
+  d
+    ? new Date(d + (d.length === 10 ? "T12:00:00" : "")).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "—";
 
 export function loadMiles(l: { miles: number | null; distance_km: number | null }) {
   return l.miles ?? (l.distance_km ? Math.round(l.distance_km / 1.609) : null);
@@ -120,4 +146,8 @@ export function driverPayFor(
   if (driver.pay_type === "flat") return Number(driver.pay_rate);
   return (gross * Number(driver.pay_rate)) / 100;
 }
-export const payTypeLabel: Record<string, string> = { percent: "% of gross", per_mile: "Per mile", flat: "Flat per load" };
+export const payTypeLabel: Record<string, string> = {
+  percent: "% of gross",
+  per_mile: "Per mile",
+  flat: "Flat per load",
+};
