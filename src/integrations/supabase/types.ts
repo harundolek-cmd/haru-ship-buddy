@@ -89,30 +89,48 @@ export type Database = {
       }
       drivers: {
         Row: {
+          cdl_class: string | null
           created_at: string
+          current_city: string | null
           full_name: string
+          home_base: string | null
           id: string
+          lat: number | null
           license_no: string | null
+          lng: number | null
+          location_updated_at: string | null
           phone: string | null
           status: Database["public"]["Enums"]["driver_status"]
           team_id: string | null
           truck_plate: string | null
         }
         Insert: {
+          cdl_class?: string | null
           created_at?: string
+          current_city?: string | null
           full_name: string
+          home_base?: string | null
           id?: string
+          lat?: number | null
           license_no?: string | null
+          lng?: number | null
+          location_updated_at?: string | null
           phone?: string | null
           status?: Database["public"]["Enums"]["driver_status"]
           team_id?: string | null
           truck_plate?: string | null
         }
         Update: {
+          cdl_class?: string | null
           created_at?: string
+          current_city?: string | null
           full_name?: string
+          home_base?: string | null
           id?: string
+          lat?: number | null
           license_no?: string | null
+          lng?: number | null
+          location_updated_at?: string | null
           phone?: string | null
           status?: Database["public"]["Enums"]["driver_status"]
           team_id?: string | null
@@ -130,49 +148,106 @@ export type Database = {
       }
       loads: {
         Row: {
+          broker: string | null
+          broker_mc: string | null
+          commodity: string | null
+          consignee: string | null
           created_at: string
+          delivery_date: string | null
           destination: string
+          detention: number | null
           dispatcher_id: string | null
           distance_km: number | null
           driver_id: string | null
+          equipment_type: string | null
+          height_ft: number | null
           id: string
+          length_ft: number | null
           load_no: number
+          lumper: number | null
+          miles: number | null
           notes: string | null
           origin: string
+          oversize: boolean
+          permits: string | null
           pickup_date: string | null
+          pieces: number | null
           rate: number | null
+          reference_no: string | null
           route_id: string | null
+          shipper: string | null
           status: Database["public"]["Enums"]["load_status"]
+          truck_id: string | null
+          weight_lbs: number | null
+          width_ft: number | null
         }
         Insert: {
+          broker?: string | null
+          broker_mc?: string | null
+          commodity?: string | null
+          consignee?: string | null
           created_at?: string
+          delivery_date?: string | null
           destination: string
+          detention?: number | null
           dispatcher_id?: string | null
           distance_km?: number | null
           driver_id?: string | null
+          equipment_type?: string | null
+          height_ft?: number | null
           id?: string
+          length_ft?: number | null
           load_no?: number
+          lumper?: number | null
+          miles?: number | null
           notes?: string | null
           origin: string
+          oversize?: boolean
+          permits?: string | null
           pickup_date?: string | null
+          pieces?: number | null
           rate?: number | null
+          reference_no?: string | null
           route_id?: string | null
+          shipper?: string | null
           status?: Database["public"]["Enums"]["load_status"]
+          truck_id?: string | null
+          weight_lbs?: number | null
+          width_ft?: number | null
         }
         Update: {
+          broker?: string | null
+          broker_mc?: string | null
+          commodity?: string | null
+          consignee?: string | null
           created_at?: string
+          delivery_date?: string | null
           destination?: string
+          detention?: number | null
           dispatcher_id?: string | null
           distance_km?: number | null
           driver_id?: string | null
+          equipment_type?: string | null
+          height_ft?: number | null
           id?: string
+          length_ft?: number | null
           load_no?: number
+          lumper?: number | null
+          miles?: number | null
           notes?: string | null
           origin?: string
+          oversize?: boolean
+          permits?: string | null
           pickup_date?: string | null
+          pieces?: number | null
           rate?: number | null
+          reference_no?: string | null
           route_id?: string | null
+          shipper?: string | null
           status?: Database["public"]["Enums"]["load_status"]
+          truck_id?: string | null
+          weight_lbs?: number | null
+          width_ft?: number | null
         }
         Relationships: [
           {
@@ -194,6 +269,13 @@ export type Database = {
             columns: ["route_id"]
             isOneToOne: false
             referencedRelation: "routes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loads_truck_id_fkey"
+            columns: ["truck_id"]
+            isOneToOne: false
+            referencedRelation: "trucks"
             referencedColumns: ["id"]
           },
         ]
@@ -299,6 +381,65 @@ export type Database = {
           region?: string | null
         }
         Relationships: []
+      }
+      trucks: {
+        Row: {
+          axles: number | null
+          created_at: string
+          deck_length_ft: number | null
+          driver_id: string | null
+          equipment_type: string
+          id: string
+          make: string | null
+          max_weight_lbs: number | null
+          model_year: number | null
+          plate: string | null
+          plate_state: string | null
+          status: string
+          unit_no: string
+          vin: string | null
+        }
+        Insert: {
+          axles?: number | null
+          created_at?: string
+          deck_length_ft?: number | null
+          driver_id?: string | null
+          equipment_type?: string
+          id?: string
+          make?: string | null
+          max_weight_lbs?: number | null
+          model_year?: number | null
+          plate?: string | null
+          plate_state?: string | null
+          status?: string
+          unit_no: string
+          vin?: string | null
+        }
+        Update: {
+          axles?: number | null
+          created_at?: string
+          deck_length_ft?: number | null
+          driver_id?: string | null
+          equipment_type?: string
+          id?: string
+          make?: string | null
+          max_weight_lbs?: number | null
+          model_year?: number | null
+          plate?: string | null
+          plate_state?: string | null
+          status?: string
+          unit_no?: string
+          vin?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trucks_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "drivers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
