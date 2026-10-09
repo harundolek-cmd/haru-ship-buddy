@@ -71,7 +71,7 @@ export function NewLoadButton() {
     });
     if (error) { toast.error(error.message); return; }
     if (f.driver_id) await supabase.from("drivers").update({ status: "gorevde" }).eq("id", f.driver_id);
-    toast.success("Load oluşturuldu");
+    toast.success("Load created");
     invalidate("loads"); invalidate("drivers");
     setF(empty); setOpen(false);
   }

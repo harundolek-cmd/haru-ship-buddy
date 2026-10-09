@@ -50,7 +50,7 @@ export function ChatRoom({ room, compact = false }: { room: string; compact?: bo
       room,
       content,
       user_id: user.id,
-      author_name: profile?.full_name || user.email || "Kullanıcı",
+      author_name: profile?.full_name || user.email || "User",
     });
     qc.invalidateQueries({ queryKey: ["messages", room] });
   }
@@ -58,7 +58,7 @@ export function ChatRoom({ room, compact = false }: { room: string; compact?: bo
   return (
     <div className={cn("flex flex-col", compact ? "h-full" : "h-[calc(100vh-14rem)]")}>
       <div className="flex-1 space-y-4 overflow-y-auto p-4 text-sm">
-        {messages.length === 0 && <p className="text-center text-[13px] text-muted-foreground">Henüz mesaj yok. İlk mesajı yazın.</p>}
+        {messages.length === 0 && <p className="text-center text-[13px] text-muted-foreground">No messages yet. Start the conversation.</p>}
         {messages.map((m) => (
           <div key={m.id} className="flex gap-2.5">
             <Avatar name={m.author_name} />
@@ -66,7 +66,7 @@ export function ChatRoom({ room, compact = false }: { room: string; compact?: bo
               <div className="flex items-baseline gap-2">
                 <span className="font-medium">{compact ? shortName(m.author_name) : m.author_name}</span>
                 <span className="font-mono text-[10px] text-muted-foreground">
-                  {new Date(m.created_at).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })}
+                  {new Date(m.created_at).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
                 </span>
               </div>
               <p className="text-[13px] text-muted-foreground text-pretty break-words">{m.content}</p>
@@ -80,10 +80,10 @@ export function ChatRoom({ room, compact = false }: { room: string; compact?: bo
           <input
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Mesaj yaz…"
+            placeholder="Type a message…"
             className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
           />
-          <button type="submit" className="font-mono text-primary" aria-label="Gönder">↩</button>
+          <button type="submit" className="font-mono text-primary" aria-label="Send">↩</button>
         </div>
       </form>
     </div>
