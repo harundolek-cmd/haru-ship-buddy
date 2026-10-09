@@ -48,39 +48,39 @@
 
 :root {
   --radius: 0.875rem;
-  --background: #f6f8fb;
-  --foreground: #172033;
-  --card: #ffffff;
-  --card-foreground: #202944;
-  --popover: #ffffff;
-  --popover-foreground: #202944;
-  --primary: #1d5c56;
+  --background: #0d1215;
+  --foreground: #e9f0ef;
+  --card: #151b1f;
+  --card-foreground: #e9f0ef;
+  --popover: #182126;
+  --popover-foreground: #e9f0ef;
+  --primary: #62d3a4;
   --primary-foreground: #ffffff;
-  --secondary: #eef3f3;
-  --secondary-foreground: #1d5c56;
-  --muted: #f0f3f5;
-  --muted-foreground: #667386;
-  --accent: #e1f0ed;
-  --accent-foreground: #15544e;
+  --secondary: #202a2f;
+  --secondary-foreground: #a9c9c2;
+  --muted: #1b2328;
+  --muted-foreground: #8a9aa0;
+  --accent: #1c3a36;
+  --accent-foreground: #9ce8c8;
   --warn: #b86609;
-  --destructive: #c2414e;
+  --destructive: #e15c6c;
   --destructive-foreground: #ffffff;
-  --border: #dfe5e8;
-  --input: #cbd5da;
-  --ring: #2d8278;
-  --chart-1: #287a70;
-  --chart-2: #3986c6;
-  --chart-3: #e87538;
-  --chart-4: #da4982;
-  --chart-5: #3296da;
-  --sidebar: #122c32;
-  --sidebar-foreground: #b9ccce;
-  --sidebar-primary: #42a99b;
+  --border: #2b363c;
+  --input: #34434a;
+  --ring: #62d3a4;
+  --chart-1: #62d3a4;
+  --chart-2: #53a5d8;
+  --chart-3: #e9ad53;
+  --chart-4: #c98ade;
+  --chart-5: #5fb4d6;
+  --sidebar: #11171a;
+  --sidebar-foreground: #a9b9bd;
+  --sidebar-primary: #62d3a4;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1e464b;
+  --sidebar-accent: #1e3938;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #285057;
-  --sidebar-ring: #6ed0c1;
+  --sidebar-border: #273237;
+  --sidebar-ring: #7ae5be;
   /* Saturated status hues with dark text on lightly tinted surfaces. */
   --st-booked: #4e50c9;
   --st-dispatched: #087d89;
@@ -89,7 +89,7 @@
   --st-invoiced: #a13785;
   --st-cancelled: #c33252;
   --st-muted: #626d86;
-  --shadow-card: 0 1px 2px #142b3510, 0 8px 24px #142b3508;
+  --shadow-card: 0 12px 30px #00000022, 0 1px 2px #00000045;
 }
 
 @layer base {
@@ -135,15 +135,16 @@
 
 /* Shared visual language for the dispatch workspace. */
 .workspace {
-  background: var(--background);
+  background: radial-gradient(ellipse at 65% -15%, #1c3d3d33, transparent 42%), var(--background);
 }
 .workspace-sidebar {
   background: linear-gradient(180deg, #14343a 0%, #10282f 55%, #0c2026 100%);
   box-shadow: 12px 0 30px #0c202614;
 }
 .brand-mark, .primary-action {
-  background: linear-gradient(125deg, #2b8176, #1d5c56);
-  box-shadow: 0 4px 12px #1d5c5630;
+  background: linear-gradient(125deg, #6be2af, #24916f);
+  color: #071b17;
+  box-shadow: 0 4px 18px #52dba045;
 }
 .primary-action:hover { filter: brightness(1.08); }
 .nav-item {
@@ -158,13 +159,13 @@
 .nav-item:hover { background: #ffffff0d; color: white; }
 .nav-item[aria-current="page"] {
   color: white;
-  background: linear-gradient(110deg, #237066, #1b5b58);
-  box-shadow: 0 4px 14px #081c2033, inset 0 1px 0 #ffffff18;
+  background: linear-gradient(110deg, #1d403d, #183532);
+  box-shadow: inset 3px 0 0 #62d3a4, 0 4px 14px #00000033;
 }
 .nav-item:focus-visible { outline: 2px solid var(--sidebar-ring); outline-offset: 2px; }
 .kpi-card {
-  border-color: #e1e7e9;
-  background: white;
+  border-color: #2b363c;
+  background: linear-gradient(135deg, #171e22, #12181b);
   border-left: 3px solid var(--kpi-color);
 }
 .kpi-card::after {
@@ -179,13 +180,16 @@
   pointer-events: none;
 }
 .dashboard-banner {
-  background: radial-gradient(ellipse at 95% 0%, #70d1c04d, transparent 55%), linear-gradient(110deg, #173d43, #1d665f);
+  background: radial-gradient(ellipse at 95% 0%, #60d4a93d, transparent 55%), linear-gradient(110deg, #163b3a, #1a6152);
 }
 .panel {
   border-radius: 1rem;
+  background-color: var(--card);
+  border-color: #2b363c;
 }
 header.no-print {
-  box-shadow: 0 1px 0 #17363b0d;
+  box-shadow: 0 1px 0 #263137;
+  background-color: #12181b;
 }
 .auth-backdrop {
   background: radial-gradient(ellipse at 15% 20%, #d7d0ff, transparent 50%), radial-gradient(ellipse at 85% 80%, #ccf3f0, transparent 50%), #f3f5ff;
@@ -195,7 +199,7 @@ header.no-print {
 .auth-hero::before, .landing-hero::before { content: ""; position: absolute; inset: 0; opacity: .2; background-image: linear-gradient(#ffffff0d 1px, transparent 1px), linear-gradient(90deg, #ffffff0d 1px, transparent 1px); background-size: 44px 44px; mask-image: linear-gradient(to bottom, black, transparent); }
 .auth-card { box-shadow: 0 24px 60px #12353a14; border-color: #dfe8e8; }
 .auth-road, .landing-road { position: absolute; left: 0; right: 0; bottom: 14%; height: 3px; background: repeating-linear-gradient(90deg, #74c9bc 0 58px, transparent 58px 104px); opacity: .55; animation: road-flow 3s linear infinite; }
-.auth-truck, .landing-truck { position: absolute; left: 8%; bottom: 10px; color: #f6c35b; font-size: 34px; line-height: 1; filter: drop-shadow(0 5px 8px #0008); animation: truck-drive 10s ease-in-out infinite; }
+.auth-truck, .landing-truck { position: absolute; left: 8%; bottom: 10px; display: flex; align-items: center; gap: .45rem; color: #f6c35b; font-size: 9px; font-weight: 700; letter-spacing: .14em; line-height: 1; filter: drop-shadow(0 5px 8px #0008); animation: truck-drive 10s ease-in-out infinite; }
 .landing-hero { min-height: 620px; }
 .landing-dashboard { animation: dashboard-float 6s ease-in-out infinite; }
 .feature-card { transition: transform 180ms, box-shadow 180ms; }

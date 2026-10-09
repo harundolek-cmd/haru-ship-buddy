@@ -21,6 +21,24 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
+const truckModes = ["DRY VAN", "REEFER", "FLATBED"] as const;
+
+function MovingTruck() {
+  const [mode, setMode] = useState(0);
+  useEffect(() => {
+    const timer = window.setInterval(() => setMode((current) => (current + 1) % truckModes.length), 6500);
+    return () => window.clearInterval(timer);
+  }, []);
+  return (
+    <div className="auth-road" aria-label={`Animated ${truckModes[mode]} truck`}>
+      <div key={truckModes[mode]} className="auth-truck">
+        <Truck className="size-8" />
+        <span>{truckModes[mode]}</span>
+      </div>
+    </div>
+  );
+}
+
 function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "signup">("login");
@@ -70,7 +88,7 @@ function AuthPage() {
       <section className="auth-hero relative hidden overflow-hidden p-10 text-white lg:flex lg:flex-col lg:justify-between xl:p-16">
         <div className="relative z-10"><Brand dark /><div className="mt-24 max-w-xl"><p className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-200">The modern carrier operating system</p><h2 className="mt-5 text-5xl font-semibold leading-[1.03] tracking-[-0.04em] xl:text-6xl">Move freight<br /><span className="text-teal-300">with confidence.</span></h2><p className="mt-6 max-w-md text-base leading-7 text-slate-300">One command center for loads, drivers, safety, permits and revenue. Built for the pace of American trucking.</p></div></div>
         <div className="relative z-10 grid max-w-2xl grid-cols-3 gap-3"><div className="rounded-2xl border border-white/10 bg-white/8 p-4 backdrop-blur"><Radar className="size-5 text-teal-300" /><p className="mt-6 text-xs text-slate-300">Live load visibility</p></div><div className="rounded-2xl border border-white/10 bg-white/8 p-4 backdrop-blur"><RouteIcon className="size-5 text-sky-300" /><p className="mt-6 text-xs text-slate-300">Smarter dispatch</p></div><div className="rounded-2xl border border-white/10 bg-white/8 p-4 backdrop-blur"><Truck className="size-5 text-amber-300" /><p className="mt-6 text-xs text-slate-300">Fleet-ready workflows</p></div></div>
-        <div className="auth-road"><span className="auth-truck">▰</span></div>
+        <MovingTruck />
       </section>
       <section className="auth-form-side flex items-center justify-center px-4 py-10 sm:px-10">
       <div className="w-full max-w-md">
