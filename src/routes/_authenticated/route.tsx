@@ -1,6 +1,5 @@
 import { createFileRoute, Outlet, redirect, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentUser } from "@/lib/tms";
 import { Avatar } from "@/components/tms/ui";
@@ -16,33 +15,40 @@ export const Route = createFileRoute("/_authenticated")({
   component: AppShell,
 });
 
-const nav = [
-  { to: "/pano", icon: "▣", label: "Pano" },
-  { to: "/gorevler", icon: "▤", label: "Loads" },
-  { to: "/harita", icon: "◎", label: "Canlı Harita" },
-  { to: "/trucklar", icon: "▥", label: "Trucklar" },
-  { to: "/suruculer", icon: "◐", label: "Sürücüler" },
-  { to: "/rotalar", icon: "✦", label: "Rotalar" },
-  { to: "/dispatcherlar", icon: "◈", label: "Dispatcherlar" },
-  { to: "/ekipler", icon: "❖", label: "Ekipler" },
-  { to: "/sohbet", icon: "◍", label: "Sohbet" },
-  { to: "/belgeler", icon: "▢", label: "Belgeler" },
-  { to: "/yonetici", icon: "⚙", label: "Yönetici" },
+const groups = [
+  {
+    label: "Operations",
+    items: [
+      { to: "/dashboard", label: "Dashboard" },
+      { to: "/loads", label: "Loads" },
+      { to: "/map", label: "Live Map" },
+      { to: "/permits", label: "Permits" },
+      { to: "/documents", label: "Documents" },
+    ],
+  },
+  {
+    label: "Fleet",
+    items: [
+      { to: "/drivers", label: "Drivers" },
+      { to: "/trucks", label: "Trucks & Trailers" },
+      { to: "/lanes", label: "Lanes" },
+    ],
+  },
+  {
+    label: "Accounting",
+    items: [{ to: "/driver-pay", label: "Driver Pay" }],
+  },
+  {
+    label: "Team",
+    items: [
+      { to: "/dispatchers", label: "Dispatchers & Teams" },
+      { to: "/chat", label: "Chat" },
+    ],
+  },
 ] as const;
 
-function Clock() {
-  const [now, setNow] = useState(new Date());
-  useEffect(() => {
-    const t = setInterval(() => setNow(new Date()), 30000);
-    return () => clearInterval(t);
-  }, []);
-  const d = now.toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" }).toLocaleUpperCase("tr");
-  const t = now.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
-  return <span className="font-mono text-xs font-medium text-muted-foreground">{d} · {t}</span>;
-}
-
 function AppShell() {
-  const { profile, isAdmin } = useCurrentUser();
+  const { user, profile, isAdmin, company } = useCurrentUser();
   const qc = useQueryClient();
   const navigate = useNavigate();
 
@@ -55,40 +61,55 @@ function AppShell() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col border-r bg-card">
-        <div className="flex h-14 items-center border-b px-5"><Brand /></div>
-        <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-3 text-sm">
-          {nav.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              className="flex items-center gap-3 rounded-md px-3 py-2 text-muted-foreground hover:bg-foreground/5"
-              activeProps={{ className: "!bg-primary/10 !text-primary font-medium" }}
-            >
-              <span className="grid size-4 place-items-center font-mono">{n.icon}</span> {n.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="px-3 pb-4">
-          <div className="flex items-center gap-2.5 rounded-lg bg-background p-3 ring-1 ring-foreground/5">
-            <Avatar name={profile?.full_name ?? null} className="size-8" />
-            <div className="min-w-0 flex-1">
-              <div className="truncate text-xs font-medium">{profile?.full_name ?? "…"}</div>
-              <div className="text-[10px] text-muted-foreground">{isAdmin ? "Yönetici" : "Dispatcher"}</div>
+      <aside className="no-print sticky top-0 flex h-screen w-56 shrink-0 flex-col bg-sidebar text-sidebar-foreground">
+        <div className="flex h-14 items-center border-b border-sidebar-border px-4"><Brand dark /></div>
+        <nav className="flex-1 space-y-4 overflow-y-auto px-2 py-4 text-[13px]">
+          {groups.map((g) => (
+            <div key={g.label}>
+              <div className="px-3 pb-1 text-[10px] font-semibold uppercase tracking-widest text-sidebar-foreground/50">{g.label}</div>
+              {g.items.map((n) => (
+                <Link
+                  key={n.to}
+                  to={n.to}
+                  className="block rounded-md px-3 py-1.5 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  activeProps={{ className: "!bg-sidebar-primary !text-sidebar-primary-foreground font-medium" }}
+                >
+                  {n.label}
+                </Link>
+              ))}
             </div>
-            <button onClick={signOut} title="Çıkış yap" className="font-mono text-xs text-muted-foreground hover:text-destructive">⏻</button>
-          </div>
-        </div>
+          ))}
+          {isAdmin && (
+            <div>
+              <div className="px-3 pb-1 text-[10px] font-semibold uppercase tracking-widest text-sidebar-foreground/50">Admin</div>
+              <Link to="/settings" className="block rounded-md px-3 py-1.5 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" activeProps={{ className: "!bg-sidebar-primary !text-sidebar-primary-foreground font-medium" }}>
+                Company & Users
+              </Link>
+            </div>
+          )}
+        </nav>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-14 items-center justify-between border-b bg-card/60 px-6">
-          <Clock />
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span className="size-2 rounded-full bg-primary" /> Sistem Çevrimiçi
-            {profile?.company_name && (<><span className="mx-2 h-5 w-px bg-border" />{profile.company_name}</>)}
+        <header className="no-print flex h-14 items-center justify-between border-b bg-card px-6">
+          <div className="min-w-0">
+            <div className="truncate text-sm font-semibold">{company?.name ?? "…"}</div>
+            <div className="font-mono text-[11px] text-muted-foreground">
+              {[company?.mc_number, company?.dot_number && `DOT ${company.dot_number}`].filter(Boolean).join(" · ") || "Add MC / DOT in Company settings"}
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="rounded border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+              {isAdmin ? "Admin" : "Dispatcher"}
+            </span>
+            <Avatar name={profile?.full_name ?? user?.email ?? null} className="size-8" />
+            <div className="hidden text-right sm:block">
+              <div className="text-xs font-medium">{profile?.full_name ?? "…"}</div>
+              <div className="text-[11px] text-muted-foreground">{user?.email}</div>
+            </div>
+            <button onClick={signOut} className="rounded-md border px-2.5 py-1 text-xs hover:bg-muted">Sign out</button>
           </div>
         </header>
-        <main className="flex-1 space-y-6 p-6">
+        <main className="flex-1 space-y-5 p-6">
           <Outlet />
         </main>
       </div>
