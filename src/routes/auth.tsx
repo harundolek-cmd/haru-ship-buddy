@@ -28,10 +28,10 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/pano" });
+      if (data.session) navigate({ to: "/dashboard" });
     });
     const { data } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) navigate({ to: "/pano" });
+      if (session) navigate({ to: "/dashboard" });
     });
     return () => data.subscription.unsubscribe();
   }, [navigate]);
@@ -47,7 +47,7 @@ function AuthPage() {
         email: form.email,
         password: form.password,
         options: {
-          emailRedirectTo: window.location.origin + "/pano",
+          emailRedirectTo: window.location.origin + "/dashboard",
           data: { full_name: form.full_name, company_name: form.company_name },
         },
       });

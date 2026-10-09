@@ -31,7 +31,7 @@ function Index() {
     <div className="min-h-screen bg-background">
       <header className="flex h-14 items-center justify-between border-b bg-card/60 px-6">
         <Brand />
-        <Link to={signedIn ? "/pano" : "/auth"} className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+        <Link to={signedIn ? "/dashboard" : "/auth"} className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90">
           {signedIn ? "Panoya git" : "Giriş yap"}
         </Link>
       </header>
@@ -44,7 +44,7 @@ function Index() {
           HARU TMS; yükleri, sürücüleri, rotaları, dispatcher ekiplerini ve BOL/POD belgelerini tek bir sakin panelde toplar.
         </p>
         <div className="mt-8">
-          <Link to={signedIn ? "/pano" : "/auth"} className="inline-flex items-center gap-2 rounded-md bg-primary py-2 pl-2 pr-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+          <Link to={signedIn ? "/dashboard" : "/auth"} className="inline-flex items-center gap-2 rounded-md bg-primary py-2 pl-2 pr-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">
             <span className="font-mono">＋</span> {signedIn ? "Panoya git" : "Hesap oluştur"}
           </Link>
         </div>
