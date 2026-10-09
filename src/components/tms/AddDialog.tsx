@@ -15,7 +15,7 @@ export type FieldDef = {
   options?: { value: string; label: string }[];
 };
 
-type TableName = "drivers" | "routes" | "dispatchers" | "teams" | "trucks";
+type TableName = "drivers" | "routes" | "dispatchers" | "teams" | "trucks" | "permits";
 
 export function AddDialog({ table, title, fields }: { table: TableName; title: string; fields: FieldDef[] }) {
   const [open, setOpen] = useState(false);
@@ -31,7 +31,7 @@ export function AddDialog({ table, title, fields }: { table: TableName; title: s
     }
     const { error } = await supabase.from(table).insert(row as never);
     if (error) { toast.error(error.message); return; }
-    toast.success(`${title} eklendi`);
+    toast.success(`${title} added`);
     invalidate(table);
     setValues({});
     setOpen(false);
@@ -40,10 +40,10 @@ export function AddDialog({ table, title, fields }: { table: TableName; title: s
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="gap-2 pl-2 pr-3"><span className="font-mono">＋</span> {title} Ekle</Button>
+        <Button className="gap-2 pl-2 pr-3"><span className="font-mono">＋</span> Add {title}</Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
-        <DialogHeader><DialogTitle>{title} Ekle</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle>Add {title}</DialogTitle></DialogHeader>
         <form onSubmit={submit} className="grid gap-3">
           {fields.map((f) => (
             <Field key={f.name} label={f.label}>
@@ -56,7 +56,7 @@ export function AddDialog({ table, title, fields }: { table: TableName; title: s
               )}
             </Field>
           ))}
-          <Button type="submit" className="mt-1">Kaydet</Button>
+          <Button type="submit" className="mt-1">Save</Button>
         </form>
       </DialogContent>
     </Dialog>
@@ -68,13 +68,13 @@ export function DeleteBtn({ table, id }: { table: TableName; id: string }) {
   return (
     <button
       onClick={async () => {
-        if (!confirm("Silmek istediğinize emin misiniz?")) return;
+        if (!confirm("Delete this record?")) return;
         const { error } = await supabase.from(table).delete().eq("id", id);
-        if (error) { toast.error("Sadece yönetici silebilir"); return; }
+        if (error) { toast.error("Only admins can delete"); return; }
         invalidate(table);
       }}
       className="font-mono text-xs text-muted-foreground hover:text-destructive"
-      title="Sil"
+      title="Delete"
     >
       ✕
     </button>

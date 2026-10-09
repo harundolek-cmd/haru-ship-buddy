@@ -1,7 +1,7 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { useList, useInvalidate, loadStatusLabel, type LoadStatus } from "@/lib/tms";
+import { useList, useInvalidate, loadStatusLabel, loadStatusOrder, type LoadStatus } from "@/lib/tms";
 import { equipmentTypes, isOversize, usd } from "@/lib/equipment";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -71,7 +71,7 @@ export function NewLoadButton() {
     });
     if (error) { toast.error(error.message); return; }
     if (f.driver_id) await supabase.from("drivers").update({ status: "gorevde" }).eq("id", f.driver_id);
-    toast.success("Load oluşturuldu");
+    toast.success("Load created");
     invalidate("loads"); invalidate("drivers");
     setF(empty); setOpen(false);
   }
@@ -79,12 +79,12 @@ export function NewLoadButton() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="gap-2 pl-2 pr-3"><span className="font-mono">＋</span> Load Build Et</Button>
+        <Button className="gap-2 pl-2 pr-3"><span className="font-mono">＋</span> Build Load</Button>
       </DialogTrigger>
       <DialogContent className="max-h-[92vh] max-w-3xl overflow-y-auto">
         <DialogHeader><DialogTitle>Load Builder</DialogTitle></DialogHeader>
         <form onSubmit={submit} className="grid gap-3">
-          <Section n={1} title="Broker / Müşteri">
+          <Section n={1} title="Broker / Customer">
             <div className="grid grid-cols-3 gap-3">
               <Field label="Broker"><Input value={f.broker} onChange={set("broker")} placeholder="TQL, CH Robinson…" /></Field>
               <Field label="MC #"><Input value={f.broker_mc} onChange={set("broker_mc")} /></Field>
@@ -92,53 +92,53 @@ export function NewLoadButton() {
             </div>
           </Section>
           <Section n={2} title="Pickup & Delivery">
-            <Field label="Kayıtlı lane (opsiyonel)">
+            <Field label="Saved lane (optional)">
               <select className={selectCls} value={f.route_id} onChange={(e) => pickRoute(e.target.value)}>
-                <option value="">— Seçin —</option>
+                <option value="">— Select —</option>
                 {routes.map((r) => <option key={r.id} value={r.id}>{r.name} ({r.origin} → {r.destination})</option>)}
               </select>
             </Field>
             <div className="grid grid-cols-3 gap-3">
               <Field label="Shipper"><Input value={f.shipper} onChange={set("shipper")} /></Field>
-              <Field label="Pickup şehri, eyalet"><Input required value={f.origin} onChange={set("origin")} placeholder="Houston, TX" /></Field>
-              <Field label="Pickup tarihi"><Input type="date" value={f.pickup_date} onChange={set("pickup_date")} /></Field>
+              <Field label="Pickup city, state"><Input required value={f.origin} onChange={set("origin")} placeholder="Houston, TX" /></Field>
+              <Field label="Pickup date"><Input type="date" value={f.pickup_date} onChange={set("pickup_date")} /></Field>
               <Field label="Consignee"><Input value={f.consignee} onChange={set("consignee")} /></Field>
-              <Field label="Delivery şehri, eyalet"><Input required value={f.destination} onChange={set("destination")} placeholder="Atlanta, GA" /></Field>
-              <Field label="Delivery tarihi"><Input type="date" value={f.delivery_date} onChange={set("delivery_date")} /></Field>
+              <Field label="Delivery city, state"><Input required value={f.destination} onChange={set("destination")} placeholder="Atlanta, GA" /></Field>
+              <Field label="Delivery date"><Input type="date" value={f.delivery_date} onChange={set("delivery_date")} /></Field>
             </div>
           </Section>
-          <Section n={3} title="Yük & Ekipman">
+          <Section n={3} title="Freight & Equipment">
             <div className="grid grid-cols-3 gap-3">
               <Field label="Commodity"><Input value={f.commodity} onChange={set("commodity")} placeholder="Excavator, Steel coils…" /></Field>
-              <Field label="Ekipman">
+              <Field label="Equipment">
                 <select className={selectCls} value={f.equipment_type} onChange={(e) => setF({ ...f, equipment_type: e.target.value, truck_id: "" })}>
                   {equipmentTypes.map((t) => <option key={t}>{t}</option>)}
                 </select>
               </Field>
-              <Field label="Parça"><Input type="number" value={f.pieces} onChange={set("pieces")} /></Field>
+              <Field label="Pieces"><Input type="number" value={f.pieces} onChange={set("pieces")} /></Field>
             </div>
             <div className="grid grid-cols-4 gap-3">
-              <Field label="Ağırlık (lbs)"><Input type="number" value={f.weight_lbs} onChange={set("weight_lbs")} /></Field>
-              <Field label="Uzunluk (ft)"><Input type="number" step="0.1" value={f.length_ft} onChange={set("length_ft")} /></Field>
-              <Field label="Genişlik (ft)"><Input type="number" step="0.1" value={f.width_ft} onChange={set("width_ft")} /></Field>
-              <Field label="Yükseklik (ft)"><Input type="number" step="0.1" value={f.height_ft} onChange={set("height_ft")} /></Field>
+              <Field label="Weight (lbs)"><Input type="number" value={f.weight_lbs} onChange={set("weight_lbs")} /></Field>
+              <Field label="Length (ft)"><Input type="number" step="0.1" value={f.length_ft} onChange={set("length_ft")} /></Field>
+              <Field label="Width (ft)"><Input type="number" step="0.1" value={f.width_ft} onChange={set("width_ft")} /></Field>
+              <Field label="Height (ft)"><Input type="number" step="0.1" value={f.height_ft} onChange={set("height_ft")} /></Field>
             </div>
             {oversize && (
-              <div className="rounded-md border border-accent/40 bg-accent/10 p-2 text-xs text-accent">
-                ⚠ Oversize / Overweight — yasal limit aşıldı (48,000 lbs · 8.5 ft genişlik · 8.5 ft yükseklik). Permit gerekli.
-                <Input className="mt-2" value={f.permits} onChange={set("permits")} placeholder="Permit eyaletleri: TX, LA, MS…" />
+              <div className="rounded-md border border-[var(--st-transit)]/40 bg-[var(--st-transit)]/10 p-2 text-xs text-foreground">
+                ⚠ Oversize / Overweight — exceeds legal limits (48,000 lbs cargo · 8.5 ft wide · 8.5 ft tall on deck · 53 ft long). State permits required — add them on the Permits page.
+                <Input className="mt-2" value={f.permits} onChange={set("permits")} placeholder="Permit states: TX, LA, MS…" />
               </div>
             )}
           </Section>
           <Section n={4} title="Rate">
             <div className="grid grid-cols-4 gap-3">
-              <Field label="Mil"><Input type="number" value={f.miles} onChange={set("miles")} /></Field>
+              <Field label="Miles"><Input type="number" value={f.miles} onChange={set("miles")} /></Field>
               <Field label="Linehaul ($)"><Input type="number" value={f.rate} onChange={set("rate")} /></Field>
               <Field label="Detention ($)"><Input type="number" value={f.detention} onChange={set("detention")} /></Field>
               <Field label="Lumper ($)"><Input type="number" value={f.lumper} onChange={set("lumper")} /></Field>
             </div>
             <div className="flex gap-6 font-mono text-xs text-muted-foreground">
-              <span>Toplam: <b className="text-foreground">{usd(total)}</b></span>
+              <span>Total: <b className="text-foreground">{usd(total)}</b></span>
               <span>RPM: <b className="text-foreground">{rpm ? `$${rpm.toFixed(2)}/mi` : "—"}</b></span>
             </div>
           </Section>
@@ -150,9 +150,9 @@ export function NewLoadButton() {
                   {fitTrucks.map((t) => <option key={t.id} value={t.id}>{t.unit_no} · {t.axles}ax</option>)}
                 </select>
               </Field>
-              <Field label="Sürücü">
+              <Field label="Driver">
                 <select className={selectCls} value={f.driver_id} onChange={set("driver_id")}>
-                  <option value="">Atanmadı</option>
+                  <option value="">Unassigned</option>
                   {drivers.map((d) => <option key={d.id} value={d.id}>{d.full_name}{d.current_city ? ` · ${d.current_city}` : ""}</option>)}
                 </select>
               </Field>
@@ -162,15 +162,15 @@ export function NewLoadButton() {
                   {dispatchers.map((d) => <option key={d.id} value={d.id}>{d.full_name}</option>)}
                 </select>
               </Field>
-              <Field label="Durum">
+              <Field label="Status">
                 <select className={selectCls} value={f.status} onChange={set("status")}>
-                  {Object.entries(loadStatusLabel).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+                  {loadStatusOrder.map((k) => <option key={k} value={k}>{loadStatusLabel[k]}</option>)}
                 </select>
               </Field>
             </div>
-            <Field label="Not"><Input value={f.notes} onChange={set("notes")} /></Field>
+            <Field label="Notes"><Input value={f.notes} onChange={set("notes")} /></Field>
           </Section>
-          <Button type="submit">Load'u oluştur</Button>
+          <Button type="submit">Create Load</Button>
         </form>
       </DialogContent>
     </Dialog>
