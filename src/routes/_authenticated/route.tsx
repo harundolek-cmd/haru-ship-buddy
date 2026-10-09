@@ -21,6 +21,10 @@ import {
   CalendarClock,
   Shield,
   Plug,
+  Search,
+  Bell,
+  Plus,
+  ChevronDown,
 } from "lucide-react";
 import { createFileRoute, Outlet, redirect, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
@@ -103,8 +107,8 @@ function AppShell() {
 
   return (
     <div className="workspace flex min-h-screen">
-      <aside className="workspace-sidebar no-print sticky top-0 flex h-dvh w-16 shrink-0 flex-col text-sidebar-foreground sm:w-60">
-        <div className="flex h-20 items-center justify-center border-b border-sidebar-border sm:justify-start sm:px-5">
+      <aside className="workspace-sidebar no-print sticky top-0 flex h-dvh w-16 shrink-0 flex-col text-sidebar-foreground sm:w-64">
+        <div className="flex h-[76px] items-center justify-center border-b border-sidebar-border sm:justify-start sm:px-5">
           <span className="hidden sm:block">
             <Brand dark />
           </span>
@@ -114,6 +118,12 @@ function AppShell() {
           >
             H
           </span>
+        </div>
+        <div className="hidden border-b border-sidebar-border px-4 py-3 sm:block">
+          <button className="flex w-full items-center justify-between rounded-lg bg-white/8 px-3 py-2 text-left hover:bg-white/12">
+            <span className="min-w-0"><span className="block truncate text-xs font-semibold text-white">{company?.name ?? "HARU Logistics"}</span><span className="mt-0.5 block text-[10px] text-sidebar-foreground">Operations workspace</span></span>
+            <ChevronDown className="size-4 shrink-0" />
+          </button>
         </div>
         <nav className="flex-1 space-y-5 overflow-y-auto px-2 py-5 text-[13px] sm:px-3">
           {groups
@@ -158,16 +168,15 @@ function AppShell() {
         </nav>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="no-print flex min-h-20 items-center justify-between gap-3 border-b bg-card/90 px-3 py-3 sm:px-6">
-          <div className="min-w-0">
-            <div className="truncate text-sm font-semibold">{company?.name ?? "…"}</div>
-            <div className="font-mono text-[11px] text-muted-foreground">
-              {[company?.mc_number, company?.dot_number && `DOT ${company.dot_number}`]
-                .filter(Boolean)
-                .join(" · ") || "Add MC / DOT in Company settings"}
-            </div>
+        <header className="no-print flex min-h-[76px] items-center justify-between gap-3 border-b bg-card px-3 py-3 sm:px-6">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="hidden size-9 place-items-center rounded-xl bg-secondary text-primary sm:grid"><Search className="size-4" /></div>
+            <div className="min-w-0"><div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Operations / Today</div><div className="truncate text-sm font-semibold">Good morning, {profile?.full_name?.split(" ")[0] ?? "Dispatcher"}</div></div>
           </div>
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <button className="hidden items-center gap-2 rounded-lg border bg-background px-3 py-2 text-xs text-muted-foreground hover:bg-muted md:flex"><Search className="size-3.5" /> Search anything <kbd className="rounded border bg-card px-1.5 py-0.5 font-mono text-[10px]">⌘ K</kbd></button>
+            <button className="relative rounded-lg border p-2 text-muted-foreground hover:bg-muted" aria-label="Notifications"><Bell className="size-4" /><span className="absolute right-1 top-1 size-1.5 rounded-full bg-amber-500" /></button>
+            <button className="primary-action hidden items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold text-white sm:flex"><Plus className="size-3.5" /> New load</button>
             <span className="hidden rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-primary md:inline-flex">
               {isAdmin ? "Admin" : "Dispatcher"}
             </span>
