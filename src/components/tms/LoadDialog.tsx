@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, selectCls } from "./ui";
+import { AddressAutocomplete } from "./AddressAutocomplete";
 
 const empty = {
   broker: "",
@@ -247,28 +248,28 @@ export function NewLoadButton({ initialLoad }: { initialLoad?: Tables<"loads"> }
             </Field>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <Field label="Shipper">
-                <Input value={f.shipper} onChange={set("shipper")} />
+                <AddressAutocomplete business value={f.shipper} onChange={(value) => setF({ ...f, shipper: value })} placeholder="Search shipper or facility" />
               </Field>
               <Field label="Pickup city, state">
-                <Input
+                <AddressAutocomplete
                   required
                   value={f.origin}
-                  onChange={set("origin")}
-                  placeholder="Houston, TX"
+                  onChange={(value) => setF({ ...f, origin: value })}
+                  placeholder="Search pickup city or address"
                 />
               </Field>
               <Field label="Pickup date">
                 <Input type="date" value={f.pickup_date} onChange={set("pickup_date")} />
               </Field>
               <Field label="Consignee">
-                <Input value={f.consignee} onChange={set("consignee")} />
+                <AddressAutocomplete business value={f.consignee} onChange={(value) => setF({ ...f, consignee: value })} placeholder="Search consignee or facility" />
               </Field>
               <Field label="Delivery city, state">
-                <Input
+                <AddressAutocomplete
                   required
                   value={f.destination}
-                  onChange={set("destination")}
-                  placeholder="Atlanta, GA"
+                  onChange={(value) => setF({ ...f, destination: value })}
+                  placeholder="Search delivery city or address"
                 />
               </Field>
               <Field label="Delivery date">
