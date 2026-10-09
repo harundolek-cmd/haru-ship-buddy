@@ -15,8 +15,16 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedChatRouteImport } from './routes/_authenticated/chat'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDispatchersRouteImport } from './routes/_authenticated/dispatchers'
+import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authenticated/documents'
+import { Route as AuthenticatedDriverPayRouteImport } from './routes/_authenticated/driver-pay'
+import { Route as AuthenticatedDriversRouteImport } from './routes/_authenticated/drivers'
 import { Route as AuthenticatedLanesRouteImport } from './routes/_authenticated/lanes'
 import { Route as AuthenticatedLoadsRouteImport } from './routes/_authenticated/loads'
+import { Route as AuthenticatedMapRouteImport } from './routes/_authenticated/map'
+import { Route as AuthenticatedPermitsRouteImport } from './routes/_authenticated/permits'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedTrucksRouteImport } from './routes/_authenticated/trucks'
+import { Route as AuthenticatedPrintDocLoadIdRouteImport } from './routes/_authenticated/print.$doc.$loadId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -48,6 +56,21 @@ const AuthenticatedDispatchersRoute =
     path: '/dispatchers',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDocumentsRoute = AuthenticatedDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDriverPayRoute = AuthenticatedDriverPayRouteImport.update({
+  id: '/driver-pay',
+  path: '/driver-pay',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDriversRoute = AuthenticatedDriversRouteImport.update({
+  id: '/drivers',
+  path: '/drivers',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedLanesRoute = AuthenticatedLanesRouteImport.update({
   id: '/lanes',
   path: '/lanes',
@@ -58,6 +81,32 @@ const AuthenticatedLoadsRoute = AuthenticatedLoadsRouteImport.update({
   path: '/loads',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMapRoute = AuthenticatedMapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPermitsRoute = AuthenticatedPermitsRouteImport.update({
+  id: '/permits',
+  path: '/permits',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTrucksRoute = AuthenticatedTrucksRouteImport.update({
+  id: '/trucks',
+  path: '/trucks',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPrintDocLoadIdRoute =
+  AuthenticatedPrintDocLoadIdRouteImport.update({
+    id: '/print/$doc/$loadId',
+    path: '/print/$doc/$loadId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -65,8 +114,16 @@ export interface FileRoutesByFullPath {
   '/chat': typeof AuthenticatedChatRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dispatchers': typeof AuthenticatedDispatchersRoute
+  '/documents': typeof AuthenticatedDocumentsRoute
+  '/driver-pay': typeof AuthenticatedDriverPayRoute
+  '/drivers': typeof AuthenticatedDriversRoute
   '/lanes': typeof AuthenticatedLanesRoute
   '/loads': typeof AuthenticatedLoadsRoute
+  '/map': typeof AuthenticatedMapRoute
+  '/permits': typeof AuthenticatedPermitsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/trucks': typeof AuthenticatedTrucksRoute
+  '/print/$doc/$loadId': typeof AuthenticatedPrintDocLoadIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -74,8 +131,16 @@ export interface FileRoutesByTo {
   '/chat': typeof AuthenticatedChatRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dispatchers': typeof AuthenticatedDispatchersRoute
+  '/documents': typeof AuthenticatedDocumentsRoute
+  '/driver-pay': typeof AuthenticatedDriverPayRoute
+  '/drivers': typeof AuthenticatedDriversRoute
   '/lanes': typeof AuthenticatedLanesRoute
   '/loads': typeof AuthenticatedLoadsRoute
+  '/map': typeof AuthenticatedMapRoute
+  '/permits': typeof AuthenticatedPermitsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/trucks': typeof AuthenticatedTrucksRoute
+  '/print/$doc/$loadId': typeof AuthenticatedPrintDocLoadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -85,8 +150,16 @@ export interface FileRoutesById {
   '/_authenticated/chat': typeof AuthenticatedChatRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/dispatchers': typeof AuthenticatedDispatchersRoute
+  '/_authenticated/documents': typeof AuthenticatedDocumentsRoute
+  '/_authenticated/driver-pay': typeof AuthenticatedDriverPayRoute
+  '/_authenticated/drivers': typeof AuthenticatedDriversRoute
   '/_authenticated/lanes': typeof AuthenticatedLanesRoute
   '/_authenticated/loads': typeof AuthenticatedLoadsRoute
+  '/_authenticated/map': typeof AuthenticatedMapRoute
+  '/_authenticated/permits': typeof AuthenticatedPermitsRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/trucks': typeof AuthenticatedTrucksRoute
+  '/_authenticated/print/$doc/$loadId': typeof AuthenticatedPrintDocLoadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -96,8 +169,16 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/dispatchers'
+    | '/documents'
+    | '/driver-pay'
+    | '/drivers'
     | '/lanes'
     | '/loads'
+    | '/map'
+    | '/permits'
+    | '/settings'
+    | '/trucks'
+    | '/print/$doc/$loadId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -105,8 +186,16 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/dispatchers'
+    | '/documents'
+    | '/driver-pay'
+    | '/drivers'
     | '/lanes'
     | '/loads'
+    | '/map'
+    | '/permits'
+    | '/settings'
+    | '/trucks'
+    | '/print/$doc/$loadId'
   id:
     | '__root__'
     | '/'
@@ -115,8 +204,16 @@ export interface FileRouteTypes {
     | '/_authenticated/chat'
     | '/_authenticated/dashboard'
     | '/_authenticated/dispatchers'
+    | '/_authenticated/documents'
+    | '/_authenticated/driver-pay'
+    | '/_authenticated/drivers'
     | '/_authenticated/lanes'
     | '/_authenticated/loads'
+    | '/_authenticated/map'
+    | '/_authenticated/permits'
+    | '/_authenticated/settings'
+    | '/_authenticated/trucks'
+    | '/_authenticated/print/$doc/$loadId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -169,6 +266,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDispatchersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/documents': {
+      id: '/_authenticated/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof AuthenticatedDocumentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/driver-pay': {
+      id: '/_authenticated/driver-pay'
+      path: '/driver-pay'
+      fullPath: '/driver-pay'
+      preLoaderRoute: typeof AuthenticatedDriverPayRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/drivers': {
+      id: '/_authenticated/drivers'
+      path: '/drivers'
+      fullPath: '/drivers'
+      preLoaderRoute: typeof AuthenticatedDriversRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/lanes': {
       id: '/_authenticated/lanes'
       path: '/lanes'
@@ -183,6 +301,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLoadsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/map': {
+      id: '/_authenticated/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof AuthenticatedMapRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/permits': {
+      id: '/_authenticated/permits'
+      path: '/permits'
+      fullPath: '/permits'
+      preLoaderRoute: typeof AuthenticatedPermitsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/trucks': {
+      id: '/_authenticated/trucks'
+      path: '/trucks'
+      fullPath: '/trucks'
+      preLoaderRoute: typeof AuthenticatedTrucksRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/print/$doc/$loadId': {
+      id: '/_authenticated/print/$doc/$loadId'
+      path: '/print/$doc/$loadId'
+      fullPath: '/print/$doc/$loadId'
+      preLoaderRoute: typeof AuthenticatedPrintDocLoadIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -190,16 +343,32 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedChatRoute: typeof AuthenticatedChatRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDispatchersRoute: typeof AuthenticatedDispatchersRoute
+  AuthenticatedDocumentsRoute: typeof AuthenticatedDocumentsRoute
+  AuthenticatedDriverPayRoute: typeof AuthenticatedDriverPayRoute
+  AuthenticatedDriversRoute: typeof AuthenticatedDriversRoute
   AuthenticatedLanesRoute: typeof AuthenticatedLanesRoute
   AuthenticatedLoadsRoute: typeof AuthenticatedLoadsRoute
+  AuthenticatedMapRoute: typeof AuthenticatedMapRoute
+  AuthenticatedPermitsRoute: typeof AuthenticatedPermitsRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedTrucksRoute: typeof AuthenticatedTrucksRoute
+  AuthenticatedPrintDocLoadIdRoute: typeof AuthenticatedPrintDocLoadIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChatRoute: AuthenticatedChatRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDispatchersRoute: AuthenticatedDispatchersRoute,
+  AuthenticatedDocumentsRoute: AuthenticatedDocumentsRoute,
+  AuthenticatedDriverPayRoute: AuthenticatedDriverPayRoute,
+  AuthenticatedDriversRoute: AuthenticatedDriversRoute,
   AuthenticatedLanesRoute: AuthenticatedLanesRoute,
   AuthenticatedLoadsRoute: AuthenticatedLoadsRoute,
+  AuthenticatedMapRoute: AuthenticatedMapRoute,
+  AuthenticatedPermitsRoute: AuthenticatedPermitsRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedTrucksRoute: AuthenticatedTrucksRoute,
+  AuthenticatedPrintDocLoadIdRoute: AuthenticatedPrintDocLoadIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

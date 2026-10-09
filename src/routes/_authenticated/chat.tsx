@@ -34,7 +34,7 @@ function ChatPage() {
             ))}
           </div>
         </Panel>
-        <Panel title={rooms.find((r) => r.id === room)?.name} className="lg:col-span-3">
+        <Panel title={rooms.find((r) => r.id === room)?.name ?? ""} className="lg:col-span-3">
           <ChatRoom key={room} room={room} />
         </Panel>
       </div>
