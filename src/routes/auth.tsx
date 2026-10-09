@@ -107,7 +107,6 @@ function AuthPage() {
             {mode === "login" ? "Need a workspace? Create one" : "Already have a workspace? Sign in"}
           </button>
         </div>
-        </div>
         <div className="mt-6 grid gap-2 text-xs text-muted-foreground sm:grid-cols-3"><span className="flex items-center gap-1.5"><CheckCircle2 className="size-3 text-emerald-600" /> Loadboard</span><span className="flex items-center gap-1.5"><CheckCircle2 className="size-3 text-emerald-600" /> Safety center</span><span className="flex items-center gap-1.5"><CheckCircle2 className="size-3 text-emerald-600" /> Revenue control</span></div>
       </div>
       </section>
