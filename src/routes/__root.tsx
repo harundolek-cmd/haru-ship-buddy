@@ -20,11 +20,11 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="font-mono text-7xl font-semibold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Sayfa bulunamadı</h2>
-        <p className="mt-2 text-sm text-muted-foreground">Aradığınız sayfa mevcut değil veya taşınmış.</p>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <p className="mt-2 text-sm text-muted-foreground">The page you are looking for does not exist or was moved.</p>
         <div className="mt-6">
           <Link to="/" className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
-            Ana sayfa
+            Home
           </Link>
         </div>
       </div>
@@ -42,8 +42,8 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">Sayfa yüklenemedi</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Bir şeyler ters gitti. Yeniden deneyin.</p>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">Page failed to load</h1>
+        <p className="mt-2 text-sm text-muted-foreground">Something went wrong. Please try again.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -52,10 +52,10 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
             }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
-            Tekrar dene
+            Try again
           </button>
           <a href="/" className="inline-flex items-center justify-center rounded-md border border-input bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-muted">
-            Ana sayfa
+            Home
           </a>
         </div>
       </div>
