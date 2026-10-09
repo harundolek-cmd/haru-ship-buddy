@@ -6,6 +6,7 @@ import { ChatRoom } from "@/components/tms/ChatRoom";
 import { NewLoadButton } from "@/components/tms/LoadDialog";
 import { loadStatusLabel, loadStatusOrder, loadStatusVar } from "@/lib/tms";
 import { usd } from "@/lib/equipment";
+import { useList } from "@/lib/tms";
 import { ArrowUpRight, CircleAlert, Clock3, DollarSign, Gauge, MapPin, Truck, Users } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
@@ -22,10 +23,19 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 
 function Dashboard() {
   const { loads, drivers, permits } = useLoadsData();
+  const dispatchers = useList("dispatchers").data ?? [];
   const active = loads.filter((l) => ["rezerve", "sevk_edildi", "yolda"].includes(l.status));
   const gross = loads.filter((l) => l.status !== "iptal").reduce((s, l) => s + Number(l.rate ?? 0), 0);
   const needPermits = loads.filter((l) => l.oversize && l.status !== "iptal" && !permits.some((p) => p.load_id === l.id)).length;
   const total = loads.length || 1;
+  const months = Array.from({ length: 6 }, (_, index) => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - (5 - index), 1);
+    const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+    return { key, label: date.toLocaleDateString("en-US", { month: "short" }), revenue: loads.filter((l) => l.delivery_date?.startsWith(key)).reduce((sum, l) => sum + Number(l.rate ?? 0) + Number(l.detention ?? 0) + Number(l.lumper ?? 0), 0) };
+  });
+  const maxMonth = Math.max(...months.map((month) => month.revenue), 1);
+  const dispatcherTotals = dispatchers.map((dispatcher) => ({ ...dispatcher, loads: loads.filter((load) => load.dispatcher_id === dispatcher.id && ["teslim_edildi", "invoiced"].includes(load.status)).length, revenue: loads.filter((load) => load.dispatcher_id === dispatcher.id && ["teslim_edildi", "invoiced"].includes(load.status)).reduce((sum, load) => sum + Number(load.rate ?? 0), 0) })).sort((a, b) => b.revenue - a.revenue).slice(0, 5);
 
   return (
     <>
@@ -38,8 +48,21 @@ function Dashboard() {
         <Kpi label="Active loads" value={active.length} hint="Across all stages" color="--st-booked" />
         <Kpi label="In transit" value={loads.filter((l) => l.status === "yolda").length} hint="Currently on the road" color="--st-transit" />
         <Kpi label="Driver capacity" value={`${drivers.filter((d) => d.status === "musait").length}/${drivers.length}`} hint="Available / total" color="--st-delivered" />
-        <Kpi label="Booked revenue" value={usd(gross)} hint="Current load value" color="--st-invoiced" />
+        <Kpi label="Booked revenue" value={usd(gross)} hint="Click for monthly revenue" color="--st-invoiced" onClick={() => document.getElementById("revenue-insights")?.scrollIntoView({ behavior: "smooth" })} />
         <Kpi label="Needs attention" value={needPermits} hint="Permit exceptions" color="--st-cancelled" />
+      </div>
+
+      <div id="revenue-insights" className="grid grid-cols-1 gap-5 xl:grid-cols-[1.35fr_1fr]">
+        <Panel title="Revenue performance" right={<Link to="/reports" className="text-xs font-semibold text-primary hover:underline">Open full revenue center →</Link>}>
+          <div className="flex items-end gap-3 px-5 pb-5 pt-7" style={{ minHeight: 190 }}>
+            {months.map((month) => <div key={month.key} className="flex min-w-0 flex-1 flex-col items-center gap-2"><div className="relative flex h-28 w-full items-end justify-center rounded-t-lg bg-secondary/60"><div className="w-3/5 rounded-t-md bg-primary transition-all hover:bg-primary/80" style={{ height: `${Math.max((month.revenue / maxMonth) * 100, month.revenue ? 8 : 2)}%` }} title={`${month.label}: ${usd(month.revenue)}`} /></div><span className="text-[11px] font-medium text-muted-foreground">{month.label}</span><span className="font-mono text-[10px] text-foreground">{usd(month.revenue)}</span></div>)}
+          </div>
+        </Panel>
+        <Panel title="Dispatcher performance" right={<Link to="/dispatchers" className="text-xs font-semibold text-primary hover:underline">Manage team →</Link>}>
+          <div className="divide-y">
+            {dispatcherTotals.length ? dispatcherTotals.map((dispatcher) => <div key={dispatcher.id} className="flex items-center gap-3 p-4"><div className="grid size-8 place-items-center rounded-full bg-secondary text-xs font-bold text-primary">{dispatcher.full_name.slice(0, 2).toUpperCase()}</div><div className="min-w-0 flex-1"><div className="truncate text-sm font-semibold">{dispatcher.full_name}</div><div className="mt-1 text-xs text-muted-foreground">{dispatcher.loads} delivered loads</div></div><div className="font-mono text-sm font-semibold">{usd(dispatcher.revenue)}</div></div>) : <Empty text="No dispatcher revenue recorded yet." />}
+          </div>
+        </Panel>
       </div>
 
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.6fr_1fr]">

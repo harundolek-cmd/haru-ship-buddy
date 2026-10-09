@@ -31,9 +31,9 @@ export function Panel({ title, right, children, className }: { title?: string; r
   );
 }
 
-export function Kpi({ label, value, hint, color }: { label: string; value: ReactNode; hint?: string; color?: string }) {
+export function Kpi({ label, value, hint, color, onClick }: { label: string; value: ReactNode; hint?: string; color?: string; onClick?: () => void }) {
   return (
-    <div className="panel kpi-card relative overflow-hidden p-4 sm:p-5" style={{ "--kpi-color": `var(${color ?? "--primary"})` } as CSSProperties}>
+    <div role={onClick ? "button" : undefined} tabIndex={onClick ? 0 : undefined} onClick={onClick} onKeyDown={(e) => { if (onClick && (e.key === "Enter" || e.key === " ")) onClick(); }} className={cn("panel kpi-card relative overflow-hidden p-4 sm:p-5", onClick && "cursor-pointer transition hover:-translate-y-0.5 hover:shadow-lg")} style={{ "--kpi-color": `var(${color ?? "--primary"})` } as CSSProperties}>
       <div className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{label}</div>
       <div className="relative z-10 my-2 break-words font-mono text-2xl font-semibold tabular-nums text-[var(--kpi-color)]">{value}</div>
       {hint && <div className="text-xs text-muted-foreground">{hint}</div>}

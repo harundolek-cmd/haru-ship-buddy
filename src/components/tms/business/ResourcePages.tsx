@@ -399,7 +399,9 @@ export function StopsPage() {
   );
 }
 export function CompliancePage() {
-  const c = useChoices();
+  const c = useChoices(), q = useList("compliance_records"), rows = q.data ?? [], todayDate = today(), soon = new Date(todayDate + "T12:00:00");
+  soon.setDate(soon.getDate() + 30);
+  const soonDate = soon.toISOString().slice(0, 10);
   return (
     <ResourceManager
       table="compliance_records"
@@ -425,6 +427,12 @@ export function CompliancePage() {
       validate={(r) =>
         !r["driver_id"] && !r["truck_id"] ? "Choose a driver or equipment record" : undefined
       }
-    />
+    >
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Kpi label="Documents tracked" value={rows.length} hint="Driver and equipment files" />
+        <Kpi label="Expiring in 30 days" value={rows.filter((r) => r.expiry_date && r.expiry_date >= todayDate && r.expiry_date <= soonDate).length} hint="Safety team follow-up" color="--st-transit" />
+        <Kpi label="Expired" value={rows.filter((r) => r.expiry_date && r.expiry_date < todayDate).length} hint="Dispatch hold recommended" color="--st-cancelled" />
+      </div>
+    </ResourceManager>
   );
 }

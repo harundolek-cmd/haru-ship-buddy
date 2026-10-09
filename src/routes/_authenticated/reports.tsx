@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useRecords, today, loadRevenue, agingBucket, exportCsv, cents } from "@/lib/business";
-import { useCurrentUser } from "@/lib/tms";
+import { useCurrentUser, useList } from "@/lib/tms";
 import { usd } from "@/lib/equipment";
 import { PageHeader, Panel, Kpi, Field, Empty, TableShell, Th, Td } from "@/components/tms/ui";
 import { QueryNotice } from "@/components/tms/business/ResourceManager";
@@ -16,6 +16,7 @@ function Reports() {
     maintenance = useRecords("maintenance"),
     permits = useRecords("permits"),
     settlements = useRecords("settlements");
+  const dispatchers = useList("dispatchers").data ?? [];
   const [start, setStart] = useState(today().slice(0, 7) + "-01"),
     [end, setEnd] = useState(today());
   const queries = [loads, expenses, invoices, maintenance, permits, settlements];
@@ -57,6 +58,16 @@ function Reports() {
   const balances = (invoices.data ?? []).filter(
     (i) => i.status === "issued" && i.total > i.paid_amount,
   );
+  const monthlyRevenue = Array.from({ length: 12 }, (_, index) => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - (11 - index), 1);
+    const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+    return { key, label: date.toLocaleDateString("en-US", { month: "short" }), revenue: (loads.data ?? []).filter((l) => l.delivery_date?.startsWith(key) && ["teslim_edildi", "invoiced"].includes(l.status)).reduce((sum, l) => sum + loadRevenue(l), 0) };
+  });
+  const dispatcherPerformance = dispatchers.map((d) => {
+    const delivered = completed.filter((l) => l.dispatcher_id === d.id);
+    return { ...d, loads: delivered.length, revenue: delivered.reduce((sum, l) => sum + loadRevenue(l), 0), miles: delivered.reduce((sum, l) => sum + (l.miles ?? Math.round((l.distance_km ?? 0) / 1.609)), 0) };
+  }).filter((d) => d.loads > 0).sort((a, b) => b.revenue - a.revenue);
   if (!isAdmin) return <Empty text="Company administrator access required." />;
   return (
     <>
@@ -112,6 +123,19 @@ function Reports() {
               value={miles ? usd(revenue / miles) : "—"}
               color="--st-invoiced"
             />
+          </div>
+          <div className="grid gap-5 xl:grid-cols-[1.25fr_1fr]">
+            <Panel title="Monthly revenue trend">
+              <div className="grid grid-cols-6 gap-2 p-5 sm:grid-cols-12">
+                {monthlyRevenue.map((month) => {
+                  const peak = Math.max(...monthlyRevenue.map((item) => item.revenue), 1);
+                  return <div key={month.key} className="group flex min-w-0 flex-col items-center gap-2"><div className="flex h-28 w-full items-end rounded-t-md bg-secondary/50"><div className="w-full rounded-t-md bg-primary/80 group-hover:bg-primary" style={{ height: `${Math.max((month.revenue / peak) * 100, month.revenue ? 8 : 2)}%` }} title={`${month.label}: ${usd(month.revenue)}`} /></div><span className="text-[10px] text-muted-foreground">{month.label}</span></div>;
+                })}
+              </div>
+            </Panel>
+            <Panel title="Dispatcher totals">
+              {dispatcherPerformance.length ? <TableShell head={<><Th>Dispatcher</Th><Th>Loads</Th><Th>Revenue</Th></>}>{dispatcherPerformance.map((d) => <tr key={d.id}><Td className="font-medium">{d.full_name}</Td><Td className="font-mono">{d.loads}</Td><Td className="font-mono">{usd(d.revenue)}</Td></tr>)}</TableShell> : <Empty text="No dispatcher totals for this period." />}
+            </Panel>
           </div>
           <Panel title="Cost basis">
             <div className="grid gap-3 p-4 text-sm sm:grid-cols-4">

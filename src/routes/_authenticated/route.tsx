@@ -53,7 +53,6 @@ const groups = [
       { to: "/stops", label: "Stops & Appointments", icon: CalendarClock },
       { to: "/tasks", label: "Tasks & Follow-ups", icon: ClipboardList },
       { to: "/map", label: "Fleet Locations", icon: MapPinned },
-      { to: "/permits", label: "Permits", icon: ShieldCheck },
       { to: "/documents", label: "Documents", icon: Files },
     ],
   },
@@ -63,17 +62,23 @@ const groups = [
       { to: "/drivers", label: "Drivers", icon: Users },
       { to: "/trucks", label: "Trucks & Trailers", icon: Truck },
       { to: "/lanes", label: "Lanes", icon: RouteIcon },
-      { to: "/maintenance", label: "Maintenance", icon: Wrench },
-      { to: "/compliance", label: "Renewals", icon: Shield },
     ],
   },
   {
-    label: "Accounting",
+    label: "Finance",
     items: [
       { to: "/driver-pay", label: "Driver Pay", icon: Wallet },
-      { to: "/invoices", label: "Invoices & Payments", icon: Receipt },
+      { to: "/invoices", label: "Invoice Desk", icon: Receipt },
       { to: "/expenses", label: "Expenses", icon: Wallet },
-      { to: "/reports", label: "Reports", icon: BarChart3 },
+      { to: "/reports", label: "Revenue Center", icon: BarChart3 },
+    ],
+  },
+  {
+    label: "Risk & Safety",
+    items: [
+      { to: "/compliance", label: "Safety Center", icon: Shield },
+      { to: "/permits", label: "Permit Desk", icon: ShieldCheck },
+      { to: "/maintenance", label: "Maintenance", icon: Wrench },
     ],
   },
   {

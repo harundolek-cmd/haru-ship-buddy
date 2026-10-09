@@ -195,6 +195,14 @@ function Invoices() {
                 )}
               />
             </div>
+            <Panel title="Invoice team queue">
+              <div className="grid gap-4 p-4 sm:grid-cols-4">
+                <Kpi label="To issue" value={rows.filter((i) => i.status === "draft").length} hint="Drafts awaiting review" />
+                <Kpi label="Overdue follow-up" value={open.filter((i) => invoiceState(i) === "overdue").length} hint="Customer contact needed" color="--st-cancelled" />
+                <Kpi label="Partial payments" value={rows.filter((i) => invoiceState(i) === "partial").length} hint="Balance still open" color="--st-transit" />
+                <Kpi label="Paid invoices" value={rows.filter((i) => invoiceState(i) === "paid").length} hint="Closed this cycle" color="--st-delivered" />
+              </div>
+            </Panel>
             <Panel title="Invoice a delivered load">
               <div className="flex flex-wrap gap-3 p-4">
                 <select

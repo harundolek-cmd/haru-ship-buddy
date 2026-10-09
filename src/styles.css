@@ -101,6 +101,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
     margin: 0;
   }
 }
@@ -138,6 +139,7 @@
 }
 .workspace-sidebar {
   background: linear-gradient(180deg, #14343a 0%, #10282f 55%, #0c2026 100%);
+  box-shadow: 12px 0 30px #0c202614;
 }
 .brand-mark, .primary-action {
   background: linear-gradient(125deg, #2b8176, #1d5c56);
@@ -148,8 +150,9 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  border-radius: 0.75rem;
-  padding: 0.625rem 0.75rem;
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  color: #a8c0c2;
   transition: background-color 150ms, box-shadow 150ms;
 }
 .nav-item:hover { background: #ffffff0d; color: white; }
@@ -160,9 +163,9 @@
 }
 .nav-item:focus-visible { outline: 2px solid var(--sidebar-ring); outline-offset: 2px; }
 .kpi-card {
-  border-color: color-mix(in srgb, var(--kpi-color) 20%, white);
-  background: linear-gradient(125deg, white, color-mix(in srgb, var(--kpi-color) 9%, white));
-  border-top: 3px solid var(--kpi-color);
+  border-color: #e1e7e9;
+  background: white;
+  border-left: 3px solid var(--kpi-color);
 }
 .kpi-card::after {
   content: "";
@@ -177,6 +180,12 @@
 }
 .dashboard-banner {
   background: radial-gradient(ellipse at 95% 0%, #70d1c04d, transparent 55%), linear-gradient(110deg, #173d43, #1d665f);
+}
+.panel {
+  border-radius: 1rem;
+}
+header.no-print {
+  box-shadow: 0 1px 0 #17363b0d;
 }
 .auth-backdrop {
   background: radial-gradient(ellipse at 15% 20%, #d7d0ff, transparent 50%), radial-gradient(ellipse at 85% 80%, #ccf3f0, transparent 50%), #f3f5ff;
