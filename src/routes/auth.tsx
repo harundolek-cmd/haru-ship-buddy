@@ -65,11 +65,11 @@ function AuthPage() {
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [k]: e.target.value });
 
   return (
-    <div className="grid min-h-screen place-items-center bg-background px-4">
+    <div className="auth-backdrop grid min-h-screen place-items-center px-4 py-10">
       <div className="w-full max-w-sm">
         <div className="mb-6 flex justify-center"><Brand /></div>
-        <div className="panel p-6">
-          <h1 className="text-lg font-semibold tracking-tight">{mode === "login" ? "Giriş yap" : "Hesap kurulumu"}</h1>
+        <div className="panel border-t-4 border-t-primary p-6 sm:p-8">
+          <h1 className="text-2xl font-bold tracking-tight">{mode === "login" ? "Giriş yap" : "Hesap kurulumu"}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {mode === "login" ? "Operasyon panelinize erişin." : "İlk kayıt olan kullanıcı yönetici olur."}
           </p>

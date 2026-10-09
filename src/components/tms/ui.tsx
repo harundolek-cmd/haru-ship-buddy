@@ -9,8 +9,8 @@ export function PageHeader({ title, subtitle, action }: { title: string; subtitl
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
-        {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+        <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+        {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
       </div>
       <div className="flex items-center gap-2">{action}</div>
     </div>
@@ -21,8 +21,8 @@ export function Panel({ title, right, children, className }: { title?: string; r
   return (
     <section className={cn("panel overflow-hidden", className)}>
       {title && (
-        <div className="flex items-center justify-between border-b px-4 py-2.5">
-          <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">{title}</h2>
+        <div className="flex items-center justify-between border-b bg-secondary/40 px-4 py-3.5">
+          <h2 className="text-[13px] font-semibold uppercase tracking-wide text-secondary-foreground">{title}</h2>
           {right}
         </div>
       )}
@@ -33,10 +33,9 @@ export function Panel({ title, right, children, className }: { title?: string; r
 
 export function Kpi({ label, value, hint, color }: { label: string; value: ReactNode; hint?: string; color?: string }) {
   return (
-    <div className="panel relative overflow-hidden p-4">
-      <span className="absolute inset-y-0 left-0 w-1" style={{ background: color ? `var(${color})` : "var(--primary)" }} />
+    <div className="panel kpi-card relative overflow-hidden p-4 sm:p-5" style={{ "--kpi-color": `var(${color ?? "--primary"})` } as CSSProperties}>
       <div className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{label}</div>
-      <div className="mt-1 font-mono text-2xl font-semibold tabular-nums">{value}</div>
+      <div className="relative z-10 my-2 break-words font-mono text-2xl font-semibold tabular-nums text-[var(--kpi-color)]">{value}</div>
       {hint && <div className="text-xs text-muted-foreground">{hint}</div>}
     </div>
   );
@@ -53,7 +52,7 @@ export function Avatar({ name, className }: { name?: string | null; className?: 
 export function StatusBadge({ label, colorVar }: { label: string; colorVar: string }) {
   const style = { "--c": `var(${colorVar})` } as CSSProperties;
   return (
-    <span style={style} className="status-badge inline-flex items-center gap-1.5 rounded px-2 py-0.5 text-[11px] font-semibold">
+    <span style={style} className="status-badge inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold">
       <span className="size-1.5 rounded-full bg-current" />
       {label}
     </span>
@@ -85,7 +84,7 @@ export function TableShell({ head, children }: { head: ReactNode; children: Reac
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-[13px]">
-        <thead className="bg-muted/60">
+        <thead className="bg-secondary/60">
           <tr className="border-b text-[10.5px] uppercase tracking-wider text-muted-foreground">{head}</tr>
         </thead>
         <tbody className="divide-y">{children}</tbody>

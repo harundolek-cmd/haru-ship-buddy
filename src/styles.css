@@ -47,50 +47,49 @@
 }
 
 :root {
-  --radius: 0.5rem;
-  /* Pro dispatch look: cool slate surfaces, navy sidebar, signal blue primary */
-  --background: oklch(0.972 0.004 250);
-  --foreground: oklch(0.24 0.02 255);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.24 0.02 255);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.24 0.02 255);
-  --primary: oklch(0.53 0.15 245);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.95 0.006 250);
-  --secondary-foreground: oklch(0.24 0.02 255);
-  --muted: oklch(0.955 0.006 250);
-  --muted-foreground: oklch(0.52 0.02 255);
-  --accent: oklch(0.66 0.13 60);
-  --accent-foreground: oklch(0.99 0 0);
-  --warn: oklch(0.72 0.15 70);
-  --destructive: oklch(0.57 0.2 25);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.91 0.008 250);
-  --input: oklch(0.88 0.01 250);
-  --ring: oklch(0.53 0.15 245);
-  --chart-1: oklch(0.53 0.15 245);
-  --chart-2: oklch(0.66 0.13 60);
-  --chart-3: oklch(0.6 0.13 155);
-  --chart-4: oklch(0.6 0.1 200);
-  --chart-5: oklch(0.57 0.2 25);
-  --sidebar: oklch(0.22 0.035 255);
-  --sidebar-foreground: oklch(0.8 0.02 255);
-  --sidebar-primary: oklch(0.65 0.14 245);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.28 0.04 255);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.3 0.035 255);
-  --sidebar-ring: oklch(0.65 0.14 245);
-  /* load status palette */
-  --st-booked: oklch(0.55 0.15 250);
-  --st-dispatched: oklch(0.55 0.1 195);
-  --st-transit: oklch(0.66 0.15 65);
-  --st-delivered: oklch(0.56 0.14 152);
-  --st-invoiced: oklch(0.55 0.11 45);
-  --st-cancelled: oklch(0.56 0.2 25);
-  --st-muted: oklch(0.6 0.015 255);
-  --shadow-card: 0 1px 2px oklch(0.2 0.03 255 / 6%);
+  --radius: 0.875rem;
+  --background: #f3f5ff;
+  --foreground: #202944;
+  --card: #ffffff;
+  --card-foreground: #202944;
+  --popover: #ffffff;
+  --popover-foreground: #202944;
+  --primary: #5745df;
+  --primary-foreground: #ffffff;
+  --secondary: #edf0ff;
+  --secondary-foreground: #4033a2;
+  --muted: #eef1fa;
+  --muted-foreground: #626d86;
+  --accent: #e7e3ff;
+  --accent-foreground: #4835bd;
+  --warn: #b86609;
+  --destructive: #d13657;
+  --destructive-foreground: #ffffff;
+  --border: #e0e5f3;
+  --input: #ccd3e7;
+  --ring: #7564ef;
+  --chart-1: #6355e7;
+  --chart-2: #0d9488;
+  --chart-3: #e87538;
+  --chart-4: #da4982;
+  --chart-5: #3296da;
+  --sidebar: #192044;
+  --sidebar-foreground: #d0d8f5;
+  --sidebar-primary: #6854e8;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #303965;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #394166;
+  --sidebar-ring: #a99bff;
+  /* Saturated status hues with dark text on lightly tinted surfaces. */
+  --st-booked: #4e50c9;
+  --st-dispatched: #087d89;
+  --st-transit: #a65c0b;
+  --st-delivered: #08794f;
+  --st-invoiced: #a13785;
+  --st-cancelled: #c33252;
+  --st-muted: #626d86;
+  --shadow-card: 0 4px 20px #26367b08, 0 1px 3px #26367b05;
 }
 
 @layer base {
@@ -102,6 +101,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    margin: 0;
   }
 }
 
@@ -130,4 +130,57 @@
   .no-print { display: none !important; }
   body { background: white !important; }
   .print-sheet { box-shadow: none !important; border: none !important; margin: 0 !important; }
+}
+
+/* Shared visual language for the dispatch workspace. */
+.workspace {
+  background: radial-gradient(ellipse at 90% 0%, #e5e0ff 0, transparent 45%), var(--background);
+}
+.workspace-sidebar {
+  background: radial-gradient(ellipse at top left, #454080 0, transparent 55%), linear-gradient(170deg, #20294f, #131b36);
+}
+.brand-mark, .primary-action {
+  background: linear-gradient(125deg, #5745df, #3c70df);
+  box-shadow: 0 4px 12px #5745df30;
+}
+.primary-action:hover { filter: brightness(1.08); }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  transition: background-color 150ms, box-shadow 150ms;
+}
+.nav-item:hover { background: #ffffff0d; color: white; }
+.nav-item[aria-current="page"] {
+  color: white;
+  background: linear-gradient(110deg, #6854e8, #456edb);
+  box-shadow: 0 4px 14px #080e3633, inset 0 1px 0 #ffffff26;
+}
+.nav-item:focus-visible { outline: 2px solid var(--sidebar-ring); outline-offset: 2px; }
+.kpi-card {
+  border-color: color-mix(in srgb, var(--kpi-color) 20%, white);
+  background: linear-gradient(125deg, white, color-mix(in srgb, var(--kpi-color) 9%, white));
+  border-top: 3px solid var(--kpi-color);
+}
+.kpi-card::after {
+  content: "";
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  right: -1.5rem;
+  bottom: -2rem;
+  border: 14px solid color-mix(in srgb, var(--kpi-color) 8%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.dashboard-banner {
+  background: radial-gradient(ellipse at 95% 0%, #1db2b95c, transparent 55%), linear-gradient(110deg, #4432a6, #3856b2);
+}
+.auth-backdrop {
+  background: radial-gradient(ellipse at 15% 20%, #d7d0ff, transparent 50%), radial-gradient(ellipse at 85% 80%, #ccf3f0, transparent 50%), #f3f5ff;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-item, .primary-action { transition: none; }
 }
