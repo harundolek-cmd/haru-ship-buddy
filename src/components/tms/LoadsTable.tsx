@@ -82,12 +82,12 @@ export function LoadsTable({ filter = "all", editable = false, limit }: { filter
 
   return (
     <TableShell
-      head={<><Th>Görev</Th><Th className="px-2">Rota</Th><Th className="px-2">Durum</Th><Th className="px-2">Sürücü</Th><Th className="px-2">Dispatcher</Th><Th className="text-right">BOL/POD</Th></>}
+      head={<><Th>Load</Th><Th className="px-2">Rota</Th><Th className="px-2">Durum</Th><Th className="px-2">Sürücü</Th><Th className="px-2">Dispatcher</Th><Th className="text-right">BOL/POD</Th></>}
     >
       {rows.map((l) => (
         <tr key={l.id}>
           <Td className="font-mono font-medium">#{4820 + l.load_no}</Td>
-          <Td className="px-2">{l.origin} → {l.destination}{l.distance_km != null && <span className="block text-[11px] text-muted-foreground">{l.distance_km} km</span>}</Td>
+          <Td className="px-2">{l.origin} → {l.destination}<span className="block text-[11px] text-muted-foreground">{[l.equipment_type, l.miles ? `${l.miles} mi` : l.distance_km ? `${Math.round(l.distance_km / 1.609)} mi` : null, l.rate ? `$${l.rate.toLocaleString("en-US")}` : null, l.oversize ? "OS/OW" : null].filter(Boolean).join(" · ")}</span></Td>
           <Td className="px-2">
             {editable ? (
               <select value={l.status} onChange={(e) => setStatus(l.id, e.target.value as LoadStatus)} className="rounded-full bg-foreground/5 px-2 py-0.5 text-[11px] font-medium outline-none">

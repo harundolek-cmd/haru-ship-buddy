@@ -18,7 +18,9 @@ export const Route = createFileRoute("/_authenticated")({
 
 const nav = [
   { to: "/pano", icon: "▣", label: "Pano" },
-  { to: "/gorevler", icon: "▤", label: "Görevler" },
+  { to: "/gorevler", icon: "▤", label: "Loads" },
+  { to: "/harita", icon: "◎", label: "Canlı Harita" },
+  { to: "/trucklar", icon: "▥", label: "Trucklar" },
   { to: "/suruculer", icon: "◐", label: "Sürücüler" },
   { to: "/rotalar", icon: "✦", label: "Rotalar" },
   { to: "/dispatcherlar", icon: "◈", label: "Dispatcherlar" },

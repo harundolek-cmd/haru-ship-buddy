@@ -16,10 +16,12 @@ import { Route as AuthenticatedBelgelerRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedDispatcherlarRouteImport } from './routes/_authenticated/dispatcherlar'
 import { Route as AuthenticatedEkiplerRouteImport } from './routes/_authenticated/ekipler'
 import { Route as AuthenticatedGorevlerRouteImport } from './routes/_authenticated/gorevler'
+import { Route as AuthenticatedHaritaRouteImport } from './routes/_authenticated/harita'
 import { Route as AuthenticatedPanoRouteImport } from './routes/_authenticated/pano'
 import { Route as AuthenticatedRotalarRouteImport } from './routes/_authenticated/rotalar'
 import { Route as AuthenticatedSohbetRouteImport } from './routes/_authenticated/sohbet'
 import { Route as AuthenticatedSuruculerRouteImport } from './routes/_authenticated/suruculer'
+import { Route as AuthenticatedTrucklarRouteImport } from './routes/_authenticated/trucklar'
 import { Route as AuthenticatedYoneticiRouteImport } from './routes/_authenticated/yonetici'
 
 const IndexRoute = IndexRouteImport.update({
@@ -57,6 +59,11 @@ const AuthenticatedGorevlerRoute = AuthenticatedGorevlerRouteImport.update({
   path: '/gorevler',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedHaritaRoute = AuthenticatedHaritaRouteImport.update({
+  id: '/harita',
+  path: '/harita',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPanoRoute = AuthenticatedPanoRouteImport.update({
   id: '/pano',
   path: '/pano',
@@ -77,6 +84,11 @@ const AuthenticatedSuruculerRoute = AuthenticatedSuruculerRouteImport.update({
   path: '/suruculer',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTrucklarRoute = AuthenticatedTrucklarRouteImport.update({
+  id: '/trucklar',
+  path: '/trucklar',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedYoneticiRoute = AuthenticatedYoneticiRouteImport.update({
   id: '/yonetici',
   path: '/yonetici',
@@ -90,10 +102,12 @@ export interface FileRoutesByFullPath {
   '/dispatcherlar': typeof AuthenticatedDispatcherlarRoute
   '/ekipler': typeof AuthenticatedEkiplerRoute
   '/gorevler': typeof AuthenticatedGorevlerRoute
+  '/harita': typeof AuthenticatedHaritaRoute
   '/pano': typeof AuthenticatedPanoRoute
   '/rotalar': typeof AuthenticatedRotalarRoute
   '/sohbet': typeof AuthenticatedSohbetRoute
   '/suruculer': typeof AuthenticatedSuruculerRoute
+  '/trucklar': typeof AuthenticatedTrucklarRoute
   '/yonetici': typeof AuthenticatedYoneticiRoute
 }
 export interface FileRoutesByTo {
@@ -103,10 +117,12 @@ export interface FileRoutesByTo {
   '/dispatcherlar': typeof AuthenticatedDispatcherlarRoute
   '/ekipler': typeof AuthenticatedEkiplerRoute
   '/gorevler': typeof AuthenticatedGorevlerRoute
+  '/harita': typeof AuthenticatedHaritaRoute
   '/pano': typeof AuthenticatedPanoRoute
   '/rotalar': typeof AuthenticatedRotalarRoute
   '/sohbet': typeof AuthenticatedSohbetRoute
   '/suruculer': typeof AuthenticatedSuruculerRoute
+  '/trucklar': typeof AuthenticatedTrucklarRoute
   '/yonetici': typeof AuthenticatedYoneticiRoute
 }
 export interface FileRoutesById {
@@ -118,10 +134,12 @@ export interface FileRoutesById {
   '/_authenticated/dispatcherlar': typeof AuthenticatedDispatcherlarRoute
   '/_authenticated/ekipler': typeof AuthenticatedEkiplerRoute
   '/_authenticated/gorevler': typeof AuthenticatedGorevlerRoute
+  '/_authenticated/harita': typeof AuthenticatedHaritaRoute
   '/_authenticated/pano': typeof AuthenticatedPanoRoute
   '/_authenticated/rotalar': typeof AuthenticatedRotalarRoute
   '/_authenticated/sohbet': typeof AuthenticatedSohbetRoute
   '/_authenticated/suruculer': typeof AuthenticatedSuruculerRoute
+  '/_authenticated/trucklar': typeof AuthenticatedTrucklarRoute
   '/_authenticated/yonetici': typeof AuthenticatedYoneticiRoute
 }
 export interface FileRouteTypes {
@@ -133,10 +151,12 @@ export interface FileRouteTypes {
     | '/dispatcherlar'
     | '/ekipler'
     | '/gorevler'
+    | '/harita'
     | '/pano'
     | '/rotalar'
     | '/sohbet'
     | '/suruculer'
+    | '/trucklar'
     | '/yonetici'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -146,10 +166,12 @@ export interface FileRouteTypes {
     | '/dispatcherlar'
     | '/ekipler'
     | '/gorevler'
+    | '/harita'
     | '/pano'
     | '/rotalar'
     | '/sohbet'
     | '/suruculer'
+    | '/trucklar'
     | '/yonetici'
   id:
     | '__root__'
@@ -160,10 +182,12 @@ export interface FileRouteTypes {
     | '/_authenticated/dispatcherlar'
     | '/_authenticated/ekipler'
     | '/_authenticated/gorevler'
+    | '/_authenticated/harita'
     | '/_authenticated/pano'
     | '/_authenticated/rotalar'
     | '/_authenticated/sohbet'
     | '/_authenticated/suruculer'
+    | '/_authenticated/trucklar'
     | '/_authenticated/yonetici'
   fileRoutesById: FileRoutesById
 }
@@ -224,6 +248,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGorevlerRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/harita': {
+      id: '/_authenticated/harita'
+      path: '/harita'
+      fullPath: '/harita'
+      preLoaderRoute: typeof AuthenticatedHaritaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pano': {
       id: '/_authenticated/pano'
       path: '/pano'
@@ -252,6 +283,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSuruculerRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/trucklar': {
+      id: '/_authenticated/trucklar'
+      path: '/trucklar'
+      fullPath: '/trucklar'
+      preLoaderRoute: typeof AuthenticatedTrucklarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/yonetici': {
       id: '/_authenticated/yonetici'
       path: '/yonetici'
@@ -267,10 +305,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDispatcherlarRoute: typeof AuthenticatedDispatcherlarRoute
   AuthenticatedEkiplerRoute: typeof AuthenticatedEkiplerRoute
   AuthenticatedGorevlerRoute: typeof AuthenticatedGorevlerRoute
+  AuthenticatedHaritaRoute: typeof AuthenticatedHaritaRoute
   AuthenticatedPanoRoute: typeof AuthenticatedPanoRoute
   AuthenticatedRotalarRoute: typeof AuthenticatedRotalarRoute
   AuthenticatedSohbetRoute: typeof AuthenticatedSohbetRoute
   AuthenticatedSuruculerRoute: typeof AuthenticatedSuruculerRoute
+  AuthenticatedTrucklarRoute: typeof AuthenticatedTrucklarRoute
   AuthenticatedYoneticiRoute: typeof AuthenticatedYoneticiRoute
 }
 
@@ -279,10 +319,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDispatcherlarRoute: AuthenticatedDispatcherlarRoute,
   AuthenticatedEkiplerRoute: AuthenticatedEkiplerRoute,
   AuthenticatedGorevlerRoute: AuthenticatedGorevlerRoute,
+  AuthenticatedHaritaRoute: AuthenticatedHaritaRoute,
   AuthenticatedPanoRoute: AuthenticatedPanoRoute,
   AuthenticatedRotalarRoute: AuthenticatedRotalarRoute,
   AuthenticatedSohbetRoute: AuthenticatedSohbetRoute,
   AuthenticatedSuruculerRoute: AuthenticatedSuruculerRoute,
+  AuthenticatedTrucklarRoute: AuthenticatedTrucklarRoute,
   AuthenticatedYoneticiRoute: AuthenticatedYoneticiRoute,
 }
 
