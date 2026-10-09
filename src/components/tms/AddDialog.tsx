@@ -15,7 +15,7 @@ export type FieldDef = {
   options?: { value: string; label: string }[];
 };
 
-type TableName = "drivers" | "routes" | "dispatchers" | "teams";
+type TableName = "drivers" | "routes" | "dispatchers" | "teams" | "trucks";
 
 export function AddDialog({ table, title, fields }: { table: TableName; title: string; fields: FieldDef[] }) {
   const [open, setOpen] = useState(false);
