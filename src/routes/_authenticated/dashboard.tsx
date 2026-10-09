@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
-import { PageHeader, Panel, Kpi } from "@/components/tms/ui";
+import { PageHeader, Panel, Kpi, Empty } from "@/components/tms/ui";
 import { LoadsTable, useLoadsData } from "@/components/tms/LoadsTable";
 import { ChatRoom } from "@/components/tms/ChatRoom";
 import { NewLoadButton } from "@/components/tms/LoadDialog";
