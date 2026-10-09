@@ -32,7 +32,7 @@ describe("App routing", () => {
   it("renders the index route", async () => {
     renderAt("/");
 
-    await waitFor(() => expect(document.body.textContent).toContain("Filonuzu"));
+    await waitFor(() => expect(document.body.textContent).toContain("Dispatch smarter."));
   });
 
   it("renders the not-found route", async () => {
